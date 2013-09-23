@@ -44,6 +44,17 @@ The output WGS-84 coordinate's accuracy is less than 0.5m, but much slower than 
 
 Calculate the distance between point(latA, lngA) and point(latB, lngB), unit in meter.
 
+## Original from:
+
+ - https://on4wp7.codeplex.com/SourceControl/changeset/view/21483#353936
+ - http://emq.googlecode.com/svn/emq/src/Algorithm/Coords/Converter.java
+
+## See also:
+
+ - http://blog.csdn.net/coolypf/article/details/8686588
+ - http://cxzy.people.com.cn/GB/196034/14908095.html
+ - https://github.com/Leask/EvilTransform
+
 # 地球坐标（WGS-84）与火星坐标（GCJ－2）转换.
 
 GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度地图要在GCJ-02基础上再加转换）
@@ -90,3 +101,14 @@ GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度�
 
 计算点(latA, lngA)和点(latB, lngB)之间的距离，单位为米。
 
+
+## 算法来源:
+
+ - https://on4wp7.codeplex.com/SourceControl/changeset/view/21483#353936
+ - http://emq.googlecode.com/svn/emq/src/Algorithm/Coords/Converter.java
+
+## 参考:
+
+ - http://blog.csdn.net/coolypf/article/details/8686588
+ - http://cxzy.people.com.cn/GB/196034/14908095.html
+ - https://github.com/Leask/EvilTransform

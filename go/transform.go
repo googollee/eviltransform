@@ -1,3 +1,4 @@
+// Package transform coordinate between earth(WGS-84) and mars in china(GCJ-02).
 package transform
 
 import (
@@ -44,6 +45,7 @@ func delta(lat, lng float64) (dLat, dLng float64) {
 	return
 }
 
+// WGStoGCJ convert WGS-84 coordinate(wgsLat, wgsLng) to GCJ-02 coordinate(gcjLat, gcjLng).
 func WGStoGCJ(wgsLat, wgsLng float64) (gcjLat, gcjLng float64) {
 	if outOfChina(wgsLat, wgsLng) {
 		gcjLat, gcjLng = wgsLat, wgsLng
@@ -54,6 +56,8 @@ func WGStoGCJ(wgsLat, wgsLng float64) (gcjLat, gcjLng float64) {
 	return
 }
 
+// GCJtoWGS convert GCJ-02 coordinate(gcjLat, gcjLng) to WGS-84 coordinate(wgsLat, wgsLng).
+// The output WGS-84 coordinate's accuracy is 1m to 2m. If you want more exactly result, use GCJtoWGSExact/gcj2wgs_exact.
 func GCJtoWGS(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) {
 	if outOfChina(gcjLat, gcjLng) {
 		wgsLat, wgsLng = gcjLat, gcjLng
@@ -64,6 +68,8 @@ func GCJtoWGS(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) {
 	return
 }
 
+// GCJtoWGSExact convert GCJ-02 coordinate(gcjLat, gcjLng) to WGS-84 coordinate(wgsLat, wgsLng).
+// The output WGS-84 coordinate's accuracy is less than 0.5m, but much slower than GCJtoWGS/gcj2wgs.
 func GCJtoWGSExact(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) {
 	const initDelta = 0.01
 	const threshold = 0.000001
@@ -95,6 +101,7 @@ func GCJtoWGSExact(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) {
 	return
 }
 
+// Distance calculate the distance between point(latA, lngA) and point(latB, lngB), unit in meter.
 func Distance(latA, lngA, latB, lngB float64) float64 {
 	const earthR = 6371000
 	x := math.Cos(latA*math.Pi/180) * math.Cos(latB*math.Pi/180) * math.Cos((lngA-lngB)*math.Pi/180)
