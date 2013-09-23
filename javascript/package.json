@@ -1,6 +1,6 @@
 {
   "name": "eviltransform",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Transport coordinate between earth(WGS-84) and mars in china(GCJ-02).",
   "main": "transport.js",
   "scripts": {
