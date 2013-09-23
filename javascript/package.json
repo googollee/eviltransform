@@ -1,5 +1,5 @@
 {
-  "name": "eviltransport",
+  "name": "eviltransform",
   "version": "0.1.0",
   "description": "Transport coordinate between earth(WGS-84) and mars in china(GCJ-02).",
   "main": "transport.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/googollee/eviltransport.git"
+    "url": "https://github.com/googollee/eviltransform.git"
   },
   "keywords": [
     "mars",
@@ -20,6 +20,6 @@
   "author": "Googol Lee <i@googol.im> (http://air.googol.im/)",
   "license": "BSD-2-Clause",
   "bugs": {
-    "url": "https://github.com/googollee/eviltransport/issues"
+    "url": "https://github.com/googollee/eviltransform/issues"
   }
 }
