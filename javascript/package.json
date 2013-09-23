@@ -1,0 +1,25 @@
+{
+  "name": "eviltransport",
+  "version": "0.1.0",
+  "description": "Transport coordinate between earth(WGS-84) and mars in china(GCJ-02).",
+  "main": "transport.js",
+  "scripts": {
+    "test": "node test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/googollee/eviltransport.git"
+  },
+  "keywords": [
+    "mars",
+    "coordinate",
+    "china",
+    "wgs",
+    "gcj"
+  ],
+  "author": "Googol Lee <i@googol.im> (http://air.googol.im/)",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/googollee/eviltransport/issues"
+  }
+}
