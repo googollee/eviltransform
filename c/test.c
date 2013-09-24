@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 #include "transform.h"
 
@@ -45,4 +46,65 @@ int main() {
 			printf("gcj2wgs_exact test %d: distance %f\n", i, d);
 		}
 	}
+
+	clock_t b;
+	clock_t e;
+	double lat, lng;
+	int n, t;
+
+	b = clock();
+	for (i = 0; i < 10; i++) {
+		wgs2gcj(tests[0][0], tests[0][1], &lat, &lng);
+	}
+	e = clock();
+	n = (int)(CLOCKS_PER_SEC / (e - b)) * 10;
+	b = clock();
+	for (i = 0; i < n; i++) {
+		wgs2gcj(tests[0][0], tests[0][1], &lat, &lng);
+	}
+	e = clock();
+	t = (int)(((double)(e - b) / CLOCKS_PER_SEC) * 1e9 / n);
+	printf("wgs2gcj\t%d\t%d ns/op\n", n, t);
+
+	b = clock();
+	for (i = 0; i < 10; i++) {
+		gcj2wgs(tests[0][0], tests[0][1], &lat, &lng);
+	}
+	e = clock();
+	n = (int)(CLOCKS_PER_SEC / (e - b)) * 10;
+	b = clock();
+	for (i = 0; i < n; i++) {
+		gcj2wgs(tests[0][0], tests[0][1], &lat, &lng);
+	}
+	e = clock();
+	t = (int)(((double)(e - b) / CLOCKS_PER_SEC) * 1e9 / n);
+	printf("gcj2wgs\t%d\t%d ns/op\n", n, t);
+
+	b = clock();
+	for (i = 0; i < 10; i++) {
+		gcj2wgs_exact(tests[0][0], tests[0][1], &lat, &lng);
+	}
+	e = clock();
+	n = (int)(CLOCKS_PER_SEC / (e - b)) * 10;
+	b = clock();
+	for (i = 0; i < n; i++) {
+		gcj2wgs_exact(tests[0][0], tests[0][1], &lat, &lng);
+	}
+	e = clock();
+	t = (int)(((double)(e - b) / CLOCKS_PER_SEC) * 1e9 / n);
+	printf("gcj2wgs_exact\t%d\t%d ns/op\n", n, t);
+
+	b = clock();
+	for (i = 0; i < 10; i++) {
+		distance(tests[0][0], tests[0][1], tests[0][2], tests[0][3]);
+	}
+	e = clock();
+	n = (int)(CLOCKS_PER_SEC / (e - b)) * 10;
+	b = clock();
+	for (i = 0; i < n; i++) {
+		distance(tests[0][0], tests[0][1], tests[0][2], tests[0][3]);
+	}
+	e = clock();
+	t = (int)(((double)(e - b) / CLOCKS_PER_SEC) * 1e9 / n);
+	printf("distance\t%d\t%d ns/op\n", n, t);
 }

@@ -34,3 +34,61 @@ for (var i = 0; i < tests.length; i++) {
 		console.log("gcj2wgs_exact test " + i + ": distance" + d);
 	}
 }
+
+var b, e, n, t, j;
+
+b = new Date().getTime();
+for (var i = 0; i < 100000; i++) {
+	transform.wgs2gcj(tests[0][0], tests[0][1]);
+}
+e = new Date().getTime();
+n = (1000 / (e - b) * 100000).toFixed(0);
+b = new Date().getTime();
+for (var i = 0; i < n; i++) {
+	transform.wgs2gcj(tests[0][0], tests[0][1]);
+}
+e = new Date().getTime();
+t = (e - b) * 1e6 / n;
+console.log("wgs2gcj\t" + n + "\t" + t.toFixed(0) + " ns/op");
+
+b = new Date().getTime();
+for (var i = 0; i < 100000; i++) {
+	transform.gcj2wgs(tests[0][0], tests[0][1]);
+}
+e = new Date().getTime();
+n = (1000 / (e - b) * 100000).toFixed(0);
+b = new Date().getTime();
+for (var i = 0; i < n; i++) {
+	transform.gcj2wgs(tests[0][0], tests[0][1]);
+}
+e = new Date().getTime();
+t = (e - b) * 1e6 / n;
+console.log("gcj2wgs\t" + n + "\t" + t.toFixed(0) + " ns/op");
+
+b = new Date().getTime();
+for (var i = 0; i < 100000; i++) {
+	transform.gcj2wgs_exact(tests[0][0], tests[0][1]);
+}
+e = new Date().getTime();
+n = (1000 / (e - b) * 100000).toFixed(0);
+b = new Date().getTime();
+for (var i = 0; i < n; i++) {
+	transform.gcj2wgs_exact(tests[0][0], tests[0][1]);
+}
+e = new Date().getTime();
+t = (e - b) * 1e6 / n;
+console.log("gcj2wgs_exact\t" + n + "\t" + t.toFixed(0) + " ns/op");
+
+b = new Date().getTime();
+for (var i = 0; i < 100000; i++) {
+	transform.distance(tests[0][0], tests[0][1], tests[0][2], tests[0][3]);
+}
+e = new Date().getTime();
+n = (1000 / (e - b) * 100000).toFixed(0);
+b = new Date().getTime();
+for (var i = 0; i < n; i++) {
+	transform.distance(tests[0][0], tests[0][1], tests[0][2], tests[0][3]);
+}
+e = new Date().getTime();
+t = (e - b) * 1e6 / n;
+console.log("distance\t" + n + "\t" + t.toFixed(0) + " ns/op");

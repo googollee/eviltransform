@@ -45,3 +45,27 @@ func TestGtoWExact(t *testing.T) {
 		assert.Equal(t, d < 0.5, true, "test %d, distance: %f", i, d)
 	}
 }
+
+func BenchmarkWtoG(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		WGStoGCJ(tests[0].wgsLat, tests[0].wgsLng)
+	}
+}
+
+func BenchmarkGtoW(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		GCJtoWGS(tests[0].gcjLat, tests[0].gcjLng)
+	}
+}
+
+func BenchmarkGtoWExact(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		GCJtoWGSExact(tests[0].gcjLat, tests[0].gcjLng)
+	}
+}
+
+func BenchmarkDistance(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		Distance(tests[0].wgsLat, tests[0].wgsLng, tests[0].gcjLat, tests[0].gcjLng)
+	}
+}
