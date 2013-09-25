@@ -13,20 +13,22 @@ int outOfChina(double lat, double lng) {
 	return 0;
 }
 
-double transformLat(double x, double y) {
-	double ret = -100.0 + 2.0*x + 3.0*y + 0.2*y*y + 0.1*x*y + 0.2*sqrt(abs(x));
-	ret += (20.0*sin(6.0*x*M_PI) + 20.0*sin(2.0*x*M_PI)) * 2.0 / 3.0;
-	ret += (20.0*sin(y*M_PI) + 40.0*sin(y/3.0*M_PI)) * 2.0 / 3.0;
-	ret += (160.0*sin(y/12.0*M_PI) + 320*sin(y*M_PI/30.0)) * 2.0 / 3.0;
-	return ret;
-}
+void transform(double x, double y, double *lat, double *lng) {
+	double xy = x * y;
+	double absX = sqrt(abs(x));
+	double d = (20.0*sin(6.0*x*M_PI) + 20.0*sin(2.0*x*M_PI)) * 2.0 / 3.0;
 
-double transformLon(double x, double y) {
-	double ret = 300.0 + x + 2.0*y + 0.1*x*x + 0.1*x*y + 0.1*sqrt(abs(x));
-	ret += (20.0*sin(6.0*x*M_PI) + 20.0*sin(2.0*x*M_PI)) * 2.0 / 3.0;
-	ret += (20.0*sin(x*M_PI) + 40.0*sin(x/3.0*M_PI)) * 2.0 / 3.0;
-	ret += (150.0*sin(x/12.0*M_PI) + 300.0*sin(x/30.0*M_PI)) * 2.0 / 3.0;
-	return ret;
+	*lat = -100.0 + 2.0*x + 3.0*y + 0.2*y*y + 0.1*xy + 0.2*absX;
+	*lng = 300.0 + x + 2.0*y + 0.1*x*x + 0.1*xy + 0.1*absX;
+
+	*lat += d;
+	*lng += d;
+
+	*lat += (20.0*sin(y*M_PI) + 40.0*sin(y/3.0*M_PI)) * 2.0 / 3.0;
+	*lng += (20.0*sin(x*M_PI) + 40.0*sin(x/3.0*M_PI)) * 2.0 / 3.0;
+
+	*lat += (160.0*sin(y/12.0*M_PI) + 320*sin(y/30.0*M_PI)) * 2.0 / 3.0;
+	*lng += (150.0*sin(x/12.0*M_PI) + 300.0*sin(x/30.0*M_PI)) * 2.0 / 3.0;
 }
 
 double delta(double lat, double lng, double *dLat, double *dLng) {
@@ -35,8 +37,7 @@ double delta(double lat, double lng, double *dLat, double *dLng) {
 	}
 	const double a = 6378245.0;
 	const double ee = 0.00669342162296594323;
-	*dLat = transformLat(lng-105.0, lat-35.0);
-	*dLng = transformLon(lng-105.0, lat-35.0);
+	transform(lng-105.0, lat-35.0, dLat, dLng);
 	double radLat = lat / 180.0 * M_PI;
 	double magic = sin(radLat);
 	magic = 1 - ee*magic*magic;
