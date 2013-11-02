@@ -31,7 +31,7 @@ void transform(double x, double y, double *lat, double *lng) {
 	*lng += (150.0*sin(x/12.0*M_PI) + 300.0*sin(x/30.0*M_PI)) * 2.0 / 3.0;
 }
 
-double delta(double lat, double lng, double *dLat, double *dLng) {
+void delta(double lat, double lng, double *dLat, double *dLng) {
 	if ((dLat == NULL) || (dLng == NULL)) {
 		return;
 	}
