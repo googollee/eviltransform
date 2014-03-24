@@ -32,7 +32,7 @@ class EvilTransformTest extends PHPUnit_Framework_TestCase
             $got = self::latLngToString($gcjLat, $gcjLng);
             $target = self::latLngToString($test->gcjLat, $test->gcjLng);
             $this->assertEquals($got, $target, "test {$i}");
-    	}
+        }
     }
 
     public function testGtoW()
