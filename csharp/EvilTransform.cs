@@ -1,19 +1,21 @@
 ﻿using System;
 
-namespace Control_Station_For_Multirotor
+namespace EvilTransform
 {
-    class EvilTransform
+    public struct PointLatLng
     {
-        public struct PointLatLng{
-            public double Lat;
-            public double Lng;
+        public double Lat;
+        public double Lng;
 
-            public PointLatLng (double lat, double lng){
-                this.Lat = lat;
-                this.Lng = lng;
-            }
+        public PointLatLng(double lat, double lng)
+        {
+            this.Lat = lat;
+            this.Lng = lng;
         }
-        static bool OutOfChina(double lat, double lng)
+    }
+    class Transform
+    {
+        bool OutOfChina(double lat, double lng)
         {
             if ((lng < 72.004) || (lng > 137.8347))
             {
@@ -26,7 +28,7 @@ namespace Control_Station_For_Multirotor
             return false;
         }
 
-        static double TransformLat(double x, double y)
+        double TransformLat(double x, double y)
         {
             double ret = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * Math.Sqrt(Math.Abs(x));
             ret += (20.0 * Math.Sin(6.0 * x * Math.PI) + 20.0 * Math.Sin(2.0 * x * Math.PI)) * 2.0 / 3.0;
@@ -35,7 +37,7 @@ namespace Control_Station_For_Multirotor
             return ret;
         }
 
-        static double TransformLon(double x, double y)
+        double TransformLon(double x, double y)
         {
             double ret = 300.0 + x + 2.0 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * Math.Sqrt(Math.Abs(x));
             ret += (20.0 * Math.Sin(6.0 * x * Math.PI) + 20.0 * Math.Sin(2.0 * x * Math.PI)) * 2.0 / 3.0;
@@ -44,7 +46,7 @@ namespace Control_Station_For_Multirotor
             return ret;
         }
 
-        static PointLatLng Delta(double lat, double lng)
+        PointLatLng Delta(double lat, double lng)
         {
             PointLatLng ret = new PointLatLng();
             double a = 6378245.0;
@@ -62,7 +64,7 @@ namespace Control_Station_For_Multirotor
             return ret;
         }
 
-        public static PointLatLng WGS2GCJ(double wgsLat, double wgsLng)
+        public PointLatLng WGS2GCJ(double wgsLat, double wgsLng)
         {
             if (OutOfChina(wgsLat, wgsLng))
             {
@@ -72,7 +74,7 @@ namespace Control_Station_For_Multirotor
             return new PointLatLng(wgsLat + d.Lat, wgsLng + d.Lng);
         }
 
-        public static PointLatLng GCJ2WGS(double gcjLat, double gcjLng)
+        public PointLatLng GCJ2WGS(double gcjLat, double gcjLng)
         {
             if (OutOfChina(gcjLat, gcjLng))
             {
@@ -82,7 +84,7 @@ namespace Control_Station_For_Multirotor
             return new PointLatLng(gcjLat - d.Lat, gcjLng - d.Lng);
         }
 
-        public static PointLatLng GCJ2WGSExact(double gcjLat, double gcjLng)
+        public PointLatLng GCJ2WGSExact(double gcjLat, double gcjLng)
         {
             double initDelta = 0.01;
             double threshold = 0.000001;
@@ -126,7 +128,7 @@ namespace Control_Station_For_Multirotor
             return new PointLatLng(wgsLat, wgsLng);
         }
 
-        public static double Distance(double latA, double lngA, double latB, double lngB)
+        public double Distance(double latA, double lngA, double latB, double lngB)
         {
             double earthR = 6371000;
             double x = Math.Cos(latA * Math.PI / 180) * Math.Cos(latB * Math.PI / 180) * Math.Cos((lngA - lngB) * Math.PI / 180);
