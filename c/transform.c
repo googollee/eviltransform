@@ -96,18 +96,18 @@ void gcj2wgs_exact(double gcjLat, double gcjLng, double *wgsLat, double *wgsLng)
 	}
 }
 
+// 1 - cos(x) == 2 sin^2(x/2)
+double oneMinusCos(double x)
+{
+	double s = sinl(x/2);
+	return s*s*2;
+}
+
 double distance(double latA, double lngA, double latB, double lngB) {
 	const double earthR = 6371000;
-	double x = cos(latA*M_PI/180) * cos(latB*M_PI/180) * cos((lngA-lngB)*M_PI/180);
-	double y = sin(latA*M_PI/180) * sin(latB*M_PI/180);
-	double s = x + y;
-	if (s > 1) {
-		s = 1;
-	}
-	if (s < -1) {
-		s = -1;
-	}
-	double alpha = acos(s);
-	double distance = alpha * earthR;
-	return distance;
+	latA *= M_PI/180;
+	latB *= M_PI/180;
+	lngA *= M_PI/180;
+	lngB *= M_PI/180;
+	return 2*earthR*asin(sqrt(oneMinusCos(latA-latB) + cos(latA)*cos(latB)*(oneMinusCos(lngA - lngB)))/M_SQRT2);
 }
