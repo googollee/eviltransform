@@ -99,7 +99,7 @@ void gcj2wgs_exact(double gcjLat, double gcjLng, double *wgsLat, double *wgsLng)
 // 1 - cos(x) == 2 sin^2(x/2)
 double oneMinusCos(double x)
 {
-	double s = sinl(x/2);
+	double s = sin(x/2);
 	return s*s*2;
 }
 
