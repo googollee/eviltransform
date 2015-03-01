@@ -77,32 +77,22 @@ void gcj2wgs(double gcjLat, double gcjLng, double *wgsLat, double *wgsLng) {
 }
 
 void gcj2wgs_exact(double gcjLat, double gcjLng, double *wgsLat, double *wgsLng) {
-	const double initDelta = 0.01;
-	const double threshold = 0.000001;
-	double dLat = initDelta, dLng = initDelta;
-	double mLat = gcjLat-dLat, mLng = gcjLng-dLng;
-	double pLat = gcjLat+dLat, pLng = gcjLng+dLng;
+	double dLat, dLng;
+	// n_iter=2: centimeter precision, n_iter=5: double precision
+	const int n_iter = 2;
 	int i;
-	for (i = 0; i < 30; i++) {
-		*wgsLat = (mLat+pLat)/2;
-		*wgsLng = (mLng+pLng)/2;
-		double tmpLat, tmpLng;
-		wgs2gcj(*wgsLat, *wgsLng, &tmpLat, &tmpLng);
-		dLat = tmpLat - gcjLat;
-		dLng = tmpLng - gcjLng;
-		if ((fabs(dLat) < threshold) && (fabs(dLng) < threshold)) {
-			return;
-		}
-		if (dLat > 0) {
-			pLat = *wgsLat;
-		} else {
-			mLat = *wgsLat;
-		}
-		if (dLng > 0) {
-			pLng = *wgsLng;
-		} else {
-			mLng = *wgsLng;
-		}
+	if ((wgsLat == NULL) || (wgsLng == NULL)) {
+		return;
+	}
+	*wgsLat = gcjLat;
+	*wgsLng = gcjLng;
+	if (outOfChina(gcjLat, gcjLng)) {
+		return;
+	}
+	for (i = 0; i < n_iter; i++) {
+		delta(*wgsLat, *wgsLng, &dLat, &dLng);
+		*wgsLat = gcjLat - dLat;
+		*wgsLng = gcjLng - dLng;
 	}
 }
 
