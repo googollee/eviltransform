@@ -15,7 +15,7 @@ int outOfChina(double lat, double lng) {
 
 void transform(double x, double y, double *lat, double *lng) {
 	double xy = x * y;
-	double absX = sqrt(abs(x));
+	double absX = sqrt(fabs(x));
 	double d = (20.0*sin(6.0*x*M_PI) + 20.0*sin(2.0*x*M_PI)) * 2.0 / 3.0;
 
 	*lat = -100.0 + 2.0*x + 3.0*y + 0.2*y*y + 0.1*xy + 0.2*absX;
