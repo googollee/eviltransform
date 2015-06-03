@@ -15,7 +15,7 @@ int outOfChina(double lat, double lng) {
 
 void transform(double x, double y, double *lat, double *lng) {
 	double xy = x * y;
-	double absX = sqrt(abs(x));
+	double absX = sqrt(fabs(x));
 	double d = (20.0*sin(6.0*x*M_PI) + 20.0*sin(2.0*x*M_PI)) * 2.0 / 3.0;
 
 	*lat = -100.0 + 2.0*x + 3.0*y + 0.2*y*y + 0.1*xy + 0.2*absX;
@@ -77,47 +77,37 @@ void gcj2wgs(double gcjLat, double gcjLng, double *wgsLat, double *wgsLng) {
 }
 
 void gcj2wgs_exact(double gcjLat, double gcjLng, double *wgsLat, double *wgsLng) {
-	const double initDelta = 0.01;
-	const double threshold = 0.000001;
-	double dLat = initDelta, dLng = initDelta;
-	double mLat = gcjLat-dLat, mLng = gcjLng-dLng;
-	double pLat = gcjLat+dLat, pLng = gcjLng+dLng;
+	double dLat, dLng;
+	// n_iter=2: centimeter precision, n_iter=5: double precision
+	const int n_iter = 2;
 	int i;
-	for (i = 0; i < 30; i++) {
-		*wgsLat = (mLat+pLat)/2;
-		*wgsLng = (mLng+pLng)/2;
-		double tmpLat, tmpLng;
-		wgs2gcj(*wgsLat, *wgsLng, &tmpLat, &tmpLng);
-		dLat = tmpLat - gcjLat;
-		dLng = tmpLng - gcjLng;
-		if ((fabs(dLat) < threshold) && (fabs(dLng) < threshold)) {
-			return;
-		}
-		if (dLat > 0) {
-			pLat = *wgsLat;
-		} else {
-			mLat = *wgsLat;
-		}
-		if (dLng > 0) {
-			pLng = *wgsLng;
-		} else {
-			mLng = *wgsLng;
-		}
+	if ((wgsLat == NULL) || (wgsLng == NULL)) {
+		return;
 	}
+	*wgsLat = gcjLat;
+	*wgsLng = gcjLng;
+	if (outOfChina(gcjLat, gcjLng)) {
+		return;
+	}
+	for (i = 0; i < n_iter; i++) {
+		delta(*wgsLat, *wgsLng, &dLat, &dLng);
+		*wgsLat = gcjLat - dLat;
+		*wgsLng = gcjLng - dLng;
+	}
+}
+
+// 1 - cos(x) == 2 sin^2(x/2)
+double oneMinusCos(double x)
+{
+	double s = sin(x/2);
+	return s*s*2;
 }
 
 double distance(double latA, double lngA, double latB, double lngB) {
 	const double earthR = 6371000;
-	double x = cos(latA*M_PI/180) * cos(latB*M_PI/180) * cos((lngA-lngB)*M_PI/180);
-	double y = sin(latA*M_PI/180) * sin(latB*M_PI/180);
-	double s = x + y;
-	if (s > 1) {
-		s = 1;
-	}
-	if (s < -1) {
-		s = -1;
-	}
-	double alpha = acos(s);
-	double distance = alpha * earthR;
-	return distance;
+	latA *= M_PI/180;
+	latB *= M_PI/180;
+	lngA *= M_PI/180;
+	lngB *= M_PI/180;
+	return 2*earthR*asin(sqrt(oneMinusCos(latA-latB) + cos(latA)*cos(latB)*(oneMinusCos(lngA - lngB)))/M_SQRT2);
 }
