@@ -9,7 +9,7 @@ GCJ-02 coordiante is used by Google Maps, Autonavi Map and other china map servi
  	eviltransform.wgs2gcj(wgsLat, wgsLng) // javascript
  	EvilTransform::WGStoGCJ($wgsLat, $wgsLng) // php
  	EvilTransform.Transform.WGS2GCJ(wgsLat, wgsLng) // csharp
-        wgs2Gcj (gcjLat, gcjLng) // Haskell
+ 	wgs2Gcj (gcjLat, gcjLng) // Haskell
 
 Input WGS-84 coordinate(wgsLat, wgsLng) and convert to GCJ-02 coordinate(gcjLat, gcjLng). The output of javascript is like:
 
