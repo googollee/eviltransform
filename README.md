@@ -9,6 +9,7 @@ GCJ-02 coordiante is used by Google Maps, Autonavi Map and other china map servi
  	eviltransform.wgs2gcj(wgsLat, wgsLng) // javascript
  	EvilTransform::WGStoGCJ($wgsLat, $wgsLng) // php
  	EvilTransform.Transform.WGS2GCJ(wgsLat, wgsLng) // csharp
+        wgs2Gcj (gcjLat, gcjLng) // Haskell
 
 Input WGS-84 coordinate(wgsLat, wgsLng) and convert to GCJ-02 coordinate(gcjLat, gcjLng). The output of javascript is like:
 
@@ -21,6 +22,7 @@ Input WGS-84 coordinate(wgsLat, wgsLng) and convert to GCJ-02 coordinate(gcjLat,
 	eviltransform.gcj2wgs(gcjLat, gcjLng) // javascript
 	EvilTransform::GCJtoWGS($gcjLat, $gcjLng) // php
 	EvilTransform.Transform.GCJ2WGS(gcjLat, gcjLng) //csharp
+	gcj2Wgs (gcjLat, gcjLng) // Haskell
 
 Input GCJ-02 coordinate(gcjLat, gcjLng) and convert to WGS-84 coordinate(wgsLat, wgsLng). The output of javascript is like:
 
@@ -35,6 +37,7 @@ The output WGS-84 coordinate's accuracy is 1m to 2m. If you want more exactly re
 	eviltransform.gcj2wgs_exact(gcjLat, gcjLng) // javascript
 	EvilTransform::GCJtoWGSExact($gcjLat, $gcjLng) // php
 	EvilTransform.Transform.GCJ2WGSExact(gcjLat, gcjLng) //csharp
+	gcj2WgsExact (gcjLat, gcjLng) //Haskell
 
 Input GCJ-02 coordinate(gcjLat, gcjLng) and convert to WGS-84 coordinate(wgsLat, wgsLng). The output of javascript is like:
 
@@ -49,6 +52,7 @@ The output WGS-84 coordinate's accuracy is less than 0.5m, but much slower than 
 	eviltransform.distance(latA, lngA, latB, lngB) // javascript
 	EvilTransform::Distance($latA, $lngA, $latB, $lngB) // php
 	EvilTransform.Transform.Distance(latA, lngA, latB, lngB) //csharp
+        distance (lat, lng)
 
 Calculate the distance between point(latA, lngA) and point(latB, lngB), unit in meter.
 
@@ -74,6 +78,7 @@ GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度�
  	eviltransform#wgs2gcj(wgsLat, wgsLng) // javascript
  	EvilTransform::WGStoGCJ($wgsLat, $wgsLng) // php
  	EvilTransform.Transform.WGS2GCJ(wgsLat, wgsLng) // csharp
+        wgs2Gcj (gcjLat, gcjLng) // Haskell
 
 输入WGS-84地球坐标(wgsLat, wgsLng)，转换为GCJ-02火星坐标(gcjLat, gcjLng)。javascript输出格式如下：
 
@@ -86,6 +91,7 @@ GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度�
 	eviltransform#gcj2wgs(gcjLat, gcjLng) // javascript
 	EvilTransform::GCJtoWGS($gcjLat, $gcjLng) // php
 	EvilTransform.Transform.GCJ2WGS(gcjLat, gcjLng) //csharp
+	gcj2Wgs (gcjLat, gcjLng) // Haskell
 
 输入GCJ-02火星坐标(gcjLat, gcjLng)，转换为WGS－84地球坐标(wgsLat, wgsLng)。javascript输出格式如下：
 
@@ -100,6 +106,7 @@ GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度�
 	eviltransform#gcj2wgs_exact(gcjLat, gcjLng) // javascript
 	EvilTransform::GCJtoWGSExact($gcjLat, $gcjLng) // php
 	EvilTransform.Transform.GCJ2WGSExact(gcjLat, gcjLng) //csharp
+	gcj2WgsExact (gcjLat, gcjLng) //Haskell	
 
 输入GCJ-02火星坐标(gcjLat, gcjLng)，转换为WGS－84地球坐标(wgsLat, wgsLng)。javascript输出格式如下：
 
@@ -114,6 +121,7 @@ GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度�
 	eviltransform#distance(latA, lngA, latB, lngB) // javascript
 	EvilTransform::Distance($latA, $lngA, $latB, $lngB) // php
 	EvilTransform.Transform.Distance(latA, lngA, latB, lngB) //csharp
+        distance (lat, lng)
 
 计算点(latA, lngA)和点(latB, lngB)之间的距离，单位为米。
 
