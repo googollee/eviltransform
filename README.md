@@ -78,7 +78,7 @@ GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度�
  	eviltransform#wgs2gcj(wgsLat, wgsLng) // javascript
  	EvilTransform::WGStoGCJ($wgsLat, $wgsLng) // php
  	EvilTransform.Transform.WGS2GCJ(wgsLat, wgsLng) // csharp
-        wgs2Gcj (gcjLat, gcjLng) // Haskell
+ 	wgs2Gcj (gcjLat, gcjLng) // Haskell
 
 输入WGS-84地球坐标(wgsLat, wgsLng)，转换为GCJ-02火星坐标(gcjLat, gcjLng)。javascript输出格式如下：
 
