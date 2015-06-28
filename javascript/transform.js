@@ -2,7 +2,7 @@ var exports
 if (typeof module === "object" && exports) {
   exports = module.exports
 } else if (typeof window !== "undefined") {
-  exports = window["eviltransform"]
+  exports = window["eviltransform"] = {}
 }
 
 function outOfChina(lat, lng) {
