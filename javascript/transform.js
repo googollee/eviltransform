@@ -103,3 +103,43 @@ function distance(latA, lngA, latB, lngB) {
 	return distance;
 }
 module.exports.distance = distance;
+
+function gcj2bd(gcjLat, gcjLng) {
+	if (outOfChina(gcjLat, gcjLng)) {
+		return {"lat": gcjLat, "lng": gcjLng};
+	}
+
+  var x = gcjLng, y = gcjLat;
+  var z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * Math.PI);
+  var theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * Math.PI);
+  var bdLng = z * Math.cos(theta) + 0.0065;
+  var bgLat = z * Math.sin(theta) + 0.006;
+  return {"lat": bdLat, "lng": bdLng};
+}
+module.exports.gcj2bd = gcj2bd;
+
+function bd2gcj(bdLat, bdLng) {
+	if (outOfChina(bdLat, bdLng)) {
+		return {"lat": bgLat, "lng": bdLng};
+	}
+
+  var x = bdLng - 0.0065, y = bdLat - 0.006;
+  var z = Math.sqrt(x * x + y * y) - 0.00002 * Math.sin(y * Math.PI);
+  var theta = Math.atan2(y, x) - 0.000003 * Math.cos(x * Math.PI);
+  var gcjLng = z * Math.cos(theta);
+  var gcjLat = z * Math.sin(theta);
+  return {"lat": gcjLat, "lng": gcjLng};
+}
+module.exports.bd2gcj = bd2gcj;
+
+function wgs2bd(wgsLat, wgsLng) {
+  var gcj = wgs2gcj(wgsLat, wgsLng)
+  return gcj2bd(gcj.lat, gcj.lng)
+}
+module.exports.wgs2bd = wgs2bd;
+
+function bd2wgs(bdLat, bdLng) {
+  var gcj = bd2gcj(bdLat, bdLng)
+  return gcj2wgs(gcj.lat, gcj.lng)
+}
+module.exports.bd2wgs = bd2wgs;
