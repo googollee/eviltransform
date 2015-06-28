@@ -90,3 +90,18 @@ GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度�
 
 计算点(latA, lngA)和点(latB, lngB)之间的距离，单位为米。
 
+## Usage in browser
+
+```
+$ bower install googollee/eviltransform
+eviltransform.gcj2wgs(lat, lng)
+```
+
+## 百度BD-09
+
+```javascript
+bd2wgs(lat, lng)  // BD-09 -> WGS-84
+wgs2bd(lat, lng)  // WGS-84 -> BD-02
+bd2gcj(lat, lng)  // BD-09 -> GCJ-02
+gcj2bd(lat, lng)  // GCJ-02 -> BD-09
+```
