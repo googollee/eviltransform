@@ -120,7 +120,7 @@ function gcj2bd(gcjLat, gcjLng) {
 	var z = Math.sqrt(x * x + y * y) + 0.00002 * Math.sin(y * Math.PI);
 	var theta = Math.atan2(y, x) + 0.000003 * Math.cos(x * Math.PI);
 	var bdLng = z * Math.cos(theta) + 0.0065;
-	var bgLat = z * Math.sin(theta) + 0.006;
+	var bdLat = z * Math.sin(theta) + 0.006;
 	return {"lat": bdLat, "lng": bdLng};
 }
 exports.gcj2bd = gcj2bd;
