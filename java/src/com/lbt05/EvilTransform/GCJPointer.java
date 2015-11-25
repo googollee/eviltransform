@@ -10,31 +10,31 @@ public class GCJPointer extends GeoPointer {
     this.longitude = longitude;
   }
 
-  public WSGPointer toWSGPointer() {
+  public WGSPointer toWGSPointer() {
     if (TransformUtil.outOfChina(this.latitude, this.longitude)) {
-      return new WSGPointer(this.latitude, this.longitude);
+      return new WGSPointer(this.latitude, this.longitude);
     }
     double[] delta = TransformUtil.delta(this.latitude, this.longitude);
-    return new WSGPointer(this.latitude - delta[0], this.longitude - delta[1]);
+    return new WGSPointer(this.latitude - delta[0], this.longitude - delta[1]);
   }
 
-  public WSGPointer toExactWSGPointer() {
+  public WGSPointer toExactWGSPointer() {
     final double initDelta = 0.01;
     final double threshold = 0.000001;
     double dLat = initDelta, dLng = initDelta;
     double mLat = this.latitude - dLat, mLng = this.longitude - dLng;
     double pLat = this.latitude + dLat, pLng = this.longitude + dLng;
     double wgsLat, wgsLng;
-    WSGPointer currentWSGPointer = null;
+    WGSPointer currentWGSPointer = null;
     for (int i = 0; i < 30; i++) {
       wgsLat = (mLat + pLat) / 2;
       wgsLng = (mLng + pLng) / 2;
-      currentWSGPointer = new WSGPointer(wgsLat, wgsLng);
-      GCJPointer tmp = currentWSGPointer.toGCJPointer();
+      currentWGSPointer = new WGSPointer(wgsLat, wgsLng);
+      GCJPointer tmp = currentWGSPointer.toGCJPointer();
       dLat = tmp.getLatitude() - this.getLatitude();
       dLng = tmp.getLongitude() - this.getLongitude();
       if ((Math.abs(dLat) < threshold) && (Math.abs(dLng) < threshold)) {
-        return currentWSGPointer;
+        return currentWGSPointer;
       } else {
         System.out.println(dLat + ":" + dLng);
       }
@@ -49,6 +49,6 @@ public class GCJPointer extends GeoPointer {
         mLng = wgsLng;
       }
     }
-    return currentWSGPointer;
+    return currentWGSPointer;
   }
 }

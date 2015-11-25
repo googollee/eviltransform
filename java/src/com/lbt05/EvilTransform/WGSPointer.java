@@ -1,10 +1,10 @@
 package com.lbt05.EvilTransform;
 
-public class WSGPointer extends GeoPointer {
+public class WGSPointer extends GeoPointer {
 
-  public WSGPointer() {}
+  public WGSPointer() {}
 
-  public WSGPointer(double latitude, double longitude) {
+  public WGSPointer(double latitude, double longitude) {
     this.latitude = latitude;
     this.longitude = longitude;
   }
