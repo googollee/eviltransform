@@ -24,13 +24,13 @@ public class GeoTest {
 
   public void testGCJ2WGS() {
     assertTrue(shanghaiWGSPointer.distance(shanghaiGCJPointer.toWGSPointer()) < 5);
-    assertTrue(shanghaiWGSPointer.distance(shenzhenGCJPointer.toWGSPointer()) < 5);
-    assertTrue(shanghaiWGSPointer.distance(beijingGCJPointer.toWGSPointer()) < 5);
+    assertTrue(shenzhenGCJPointer.distance(shenzhenGCJPointer.toWGSPointer()) < 5);
+    assertTrue(beijingGCJPointer.distance(beijingGCJPointer.toWGSPointer()) < 5);
   }
 
   public void testGCJ2ExtactWGS() {
     assertTrue(shanghaiWGSPointer.distance(shanghaiGCJPointer.toExactWGSPointer()) < 0.5);
-    assertTrue(shanghaiWGSPointer.distance(shenzhenGCJPointer.toExactWGSPointer()) < 0.5);
-    assertTrue(shanghaiWGSPointer.distance(beijingGCJPointer.toExactWGSPointer()) < 0.5);
+    assertTrue(shenzhenGCJPointer.distance(shenzhenGCJPointer.toExactWGSPointer()) < 0.5);
+    assertTrue(beijingGCJPointer.distance(beijingGCJPointer.toExactWGSPointer()) < 0.5);
   }
 }
