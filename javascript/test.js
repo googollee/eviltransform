@@ -7,15 +7,26 @@ var tests = [
 	[39.911954, 116.377817, 39.91334545536069, 116.38404722455657] // beijing
 ];
 
-for (var i = 0; i < tests.length; i++) {
-	var wgsLat = tests[i][0], wgsLng = tests[i][1];
-	var gcj = transform.wgs2gcj(wgsLat, wgsLng);
-	var got = gcj.lat.toFixed(6).toString() + "," + gcj.lng.toFixed(6).toString()
-	var target = tests[i][2].toFixed(6).toString() + "," + tests[i][3].toFixed(6).toString()
-	if (got != target) {
-		console.log("wgs2gcj test " + i + ": " + got + " != " + target);
+var bdTests = [
+	// bdLat, bdLng, wgsLat, wgsLng
+	[29.199786, 120.019809, 29.196131605295484, 120.00877901149691],
+	[29.210504, 120.036455, 29.206795749156136, 120.0253853970846],
+];
+
+function testForward(tests, method) {
+	for (var i = 0; i < tests.length; i++) {
+		var lat = tests[i][0], lng = tests[i][1];
+		var ret = transform[method](lat, lng);
+		var got = ret.lat.toFixed(6).toString() + "," + ret.lng.toFixed(6).toString()
+		var target = tests[i][2].toFixed(6).toString() + "," + tests[i][3].toFixed(6).toString()
+		if (got != target) {
+			console.log(method+" test " + i + ": " + got + " != " + target);
+		}
 	}
 }
+
+testForward(tests, "wgs2gcj")
+testForward(bdTests, "bd2wgs")
 
 for (var i = 0; i < tests.length; i++) {
 	var gcjLat = tests[i][2], gcjLng = tests[i][3];
