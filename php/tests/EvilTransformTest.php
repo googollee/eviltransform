@@ -1,7 +1,14 @@
 <?php
 
-require_once('EvilTransform.php');
+namespace larryli\eviltransform\tests;
 
+use larryli\eviltransform\EvilTransform;
+use PHPUnit_Framework_TestCase;
+
+/**
+ * Class EvilTransformTest
+ * @package larryli\eviltransform\tests
+ */
 class EvilTransformTest extends PHPUnit_Framework_TestCase
 {
     private $tests;
@@ -52,9 +59,12 @@ class EvilTransformTest extends PHPUnit_Framework_TestCase
             $this->assertEquals($d < 0.5, true, "test {$i}, distance: {$d}");
         }
     }
-
 }
 
+/**
+ * Class EvilTransformTest_Test
+ * @package larryli\eviltransform\tests
+ */
 class EvilTransformTest_Test
 {
     public $wgsLat, $wgsLng;

@@ -4,12 +4,14 @@ GCJ-02 coordiante is used by Google Maps, Autonavi Map and other china map servi
 
 ## WGStoGCJ/wgs2gcj
 
- 	func WGStoGCJ(wgsLat, wgsLng float64) (gcjLat, gcjLng float64) // Go/Golang
- 	void wgs2gcj(double wgsLat, double wgsLng, double *gcjLat, double *gcjLng) // C/C++/Obj-C
- 	eviltransform.wgs2gcj(wgsLat, wgsLng) // javascript
- 	EvilTransform::WGStoGCJ($wgsLat, $wgsLng) // php
+	func WGStoGCJ(wgsLat, wgsLng float64) (gcjLat, gcjLng float64) // Go/Golang
+	void wgs2gcj(double wgsLat, double wgsLng, double *gcjLat, double *gcjLng) // C/C++/Obj-C
+	eviltransform.wgs2gcj(wgsLat, wgsLng) // JavaScript/Python
+	\larryli\eviltransform\EvilTransform::WGStoGCJ($wgsLat, $wgsLng) // PHP5.4+
+	EvilTransform.Transform.WGS2GCJ(wgsLat, wgsLng) // CSharp
+	wgs2Gcj (gcjLat, gcjLng) // Haskell
 
-Input WGS-84 coordinate(wgsLat, wgsLng) and convert to GCJ-02 coordinate(gcjLat, gcjLng). The output of javascript is like:
+Input WGS-84 coordinate(wgsLat, wgsLng) and convert to GCJ-02 coordinate(gcjLat, gcjLng). The output of JavaScript is like:
 
 	{"lat": xx.xxxx, "lng": yy.yyyy}
 
@@ -17,10 +19,12 @@ Input WGS-84 coordinate(wgsLat, wgsLng) and convert to GCJ-02 coordinate(gcjLat,
 
 	func GCJtoWGS(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) // Go/Golang
 	void gcj2wgs(double gcjLat, double gcjLng, double *wgsLat, double *wgsLnt) // C/C++/Obj-C
-	eviltransform.gcj2wgs(gcjLat, gcjLng) // javascript
-	EvilTransform::GCJtoWGS($gcjLat, $gcjLng) // php
+	eviltransform.gcj2wgs(gcjLat, gcjLng) // JavaScript/Python
+	\larryli\eviltransform\EvilTransform::GCJtoWGS($gcjLat, $gcjLng) // PHP5.4+
+	EvilTransform.Transform.GCJ2WGS(gcjLat, gcjLng) //CSharp
+	gcj2Wgs (gcjLat, gcjLng) // Haskell
 
-Input GCJ-02 coordinate(gcjLat, gcjLng) and convert to WGS-84 coordinate(wgsLat, wgsLng). The output of javascript is like:
+Input GCJ-02 coordinate(gcjLat, gcjLng) and convert to WGS-84 coordinate(wgsLat, wgsLng). The output of JavaScript is like:
 
 	{"lat": xx.xxxx, "lng": yy.yyyy}
 
@@ -30,10 +34,12 @@ The output WGS-84 coordinate's accuracy is 1m to 2m. If you want more exactly re
 
 	func GCJtoWGSExact(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) // Go/Golang
 	void gcj2wgs_exact(double gcjLat, double gcjLng, double *wgsLat, double *wgsLnt) // C/C++/Obj-C
-	eviltransform.gcj2wgs_exact(gcjLat, gcjLng) // javascript
-	EvilTransform::GCJtoWGSExact($gcjLat, $gcjLng) // php
+	eviltransform.gcj2wgs_exact(gcjLat, gcjLng) // JavaScript/Python
+	\larryli\eviltransform\EvilTransform::GCJtoWGSExact($gcjLat, $gcjLng) // PHP5.4+
+	EvilTransform.Transform.GCJ2WGSExact(gcjLat, gcjLng) //CSharp
+	gcj2WgsExact (gcjLat, gcjLng) //Haskell
 
-Input GCJ-02 coordinate(gcjLat, gcjLng) and convert to WGS-84 coordinate(wgsLat, wgsLng). The output of javascript is like:
+Input GCJ-02 coordinate(gcjLat, gcjLng) and convert to WGS-84 coordinate(wgsLat, wgsLng). The output of JavaScript is like:
 
 	{"lat": xx.xxxx, "lng": yy.yyyy}
 
@@ -43,8 +49,10 @@ The output WGS-84 coordinate's accuracy is less than 0.5m, but much slower than 
 
 	func Distance(latA, lngA, latB, lngB float64) float64 // Go/Golang
 	double distance(double latA, double lngA, double latB, double lngB) // C/C++/Obj-C
-	eviltransform.distance(latA, lngA, latB, lngB) // javascript
-	EvilTransform::Distance($latA, $lngA, $latB, $lngB) // php
+	eviltransform.distance(latA, lngA, latB, lngB) // JavaScript/Python
+	\larryli\eviltransform\EvilTransform::Distance($latA, $lngA, $latB, $lngB) // PHP5.4+
+	EvilTransform.Transform.Distance(latA, lngA, latB, lngB) //CSharp
+	distance (lat, lng)
 
 Calculate the distance between point(latA, lngA) and point(latB, lngB), unit in meter.
 
@@ -59,18 +67,22 @@ Calculate the distance between point(latA, lngA) and point(latB, lngB), unit in 
  - http://cxzy.people.com.cn/GB/196034/14908095.html
  - https://github.com/Leask/EvilTransform
 
+---
+
 # 地球坐标（WGS-84）与火星坐标（GCJ－2）转换.
 
 GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度地图要在GCJ-02基础上再加转换）
 
 ## WGStoGCJ/wgs2gcj
 
- 	func WGStoGCJ(wgsLat, wgsLng float64) (gcjLat, gcjLng float64) // Go/Golang
- 	void wgs2gcj(double wgsLat, double wgsLng, double *gcjLat, double *gcjLng) // C/C++/Obj-C
- 	eviltransform#wgs2gcj(wgsLat, wgsLng) // javascript
- 	EvilTransform::WGStoGCJ($wgsLat, $wgsLng) // php
+	func WGStoGCJ(wgsLat, wgsLng float64) (gcjLat, gcjLng float64) // Go/Golang
+	void wgs2gcj(double wgsLat, double wgsLng, double *gcjLat, double *gcjLng) // C/C++/Obj-C
+	eviltransform.wgs2gcj(wgsLat, wgsLng) // JavaScript/Python
+	\larryli\eviltransform\EvilTransform::WGStoGCJ($wgsLat, $wgsLng) // PHP5.4+
+	EvilTransform.Transform.WGS2GCJ(wgsLat, wgsLng) // CSharp
+	wgs2Gcj (gcjLat, gcjLng) // Haskell
 
-输入WGS-84地球坐标(wgsLat, wgsLng)，转换为GCJ-02火星坐标(gcjLat, gcjLng)。javascript输出格式如下：
+输入WGS-84地球坐标(wgsLat, wgsLng)，转换为GCJ-02火星坐标(gcjLat, gcjLng)。JavaScript输出格式如下：
 
 	{"lat": xx.xxxx, "lng": yy.yyyy}
 
@@ -78,10 +90,12 @@ GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度�
 
 	func GCJtoWGS(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) // Go/Golang
 	void gcj2wgs(double gcjLat, double gcjLng, double *wgsLat, double *wgsLnt) // C/C++/Obj-C
-	eviltransform#gcj2wgs(gcjLat, gcjLng) // javascript
-	EvilTransform::GCJtoWGS($gcjLat, $gcjLng) // php
+	eviltransform.gcj2wgs(gcjLat, gcjLng) // JavaScript/Python
+	\larryli\eviltransform\EvilTransform::GCJtoWGS($gcjLat, $gcjLng) // PHP5.4+
+	EvilTransform.Transform.GCJ2WGS(gcjLat, gcjLng) //CSharp
+	gcj2Wgs (gcjLat, gcjLng) // Haskell
 
-输入GCJ-02火星坐标(gcjLat, gcjLng)，转换为WGS－84地球坐标(wgsLat, wgsLng)。javascript输出格式如下：
+输入GCJ-02火星坐标(gcjLat, gcjLng)，转换为WGS－84地球坐标(wgsLat, wgsLng)。JavaScript输出格式如下：
 
 	{"lat": xx.xxxx, "lng": yy.yyyy}
 
@@ -91,10 +105,12 @@ GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度�
 
 	func GCJtoWGSExact(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) // Go/Golang
 	void gcj2wgs_exact(double gcjLat, double gcjLng, double *wgsLat, double *wgsLnt) // C/C++/Obj-C
-	eviltransform#gcj2wgs_exact(gcjLat, gcjLng) // javascript
-	EvilTransform::GCJtoWGSExact($gcjLat, $gcjLng) // php
+	eviltransform.gcj2wgs_exact(gcjLat, gcjLng) // JavaScript/Python
+	\larryli\eviltransform\EvilTransform::GCJtoWGSExact($gcjLat, $gcjLng) // PHP5.4+
+	EvilTransform.Transform.GCJ2WGSExact(gcjLat, gcjLng) //CSharp
+	gcj2WgsExact (gcjLat, gcjLng) //Haskell
 
-输入GCJ-02火星坐标(gcjLat, gcjLng)，转换为WGS－84地球坐标(wgsLat, wgsLng)。javascript输出格式如下：
+输入GCJ-02火星坐标(gcjLat, gcjLng)，转换为WGS－84地球坐标(wgsLat, wgsLng)。JavaScript 输出格式如下：
 
 	{"lat": xx.xxxx, "lng": yy.yyyy}
 
@@ -104,8 +120,10 @@ GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度�
 
 	func Distance(latA, lngA, latB, lngB float64) float64 // Go/Golang
 	double distance(double latA, double lngA, double latB, double lngB) // C/C++/Obj-C
-	eviltransform#distance(latA, lngA, latB, lngB) // javascript
-	EvilTransform::Distance($latA, $lngA, $latB, $lngB) // php
+	eviltransform.distance(latA, lngA, latB, lngB) // JavaScript/Python
+	\larryli\eviltransform\EvilTransform::Distance($latA, $lngA, $latB, $lngB) // PHP5.4+
+	EvilTransform.Transform.Distance(latA, lngA, latB, lngB) //CSharp
+	distance (lat, lng)
 
 计算点(latA, lngA)和点(latB, lngB)之间的距离，单位为米。
 

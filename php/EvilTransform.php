@@ -1,9 +1,19 @@
 <?php
 
-// Package transform coordinate between earth(WGS-84) and mars in china(GCJ-02).
+namespace larryli\eviltransform;
+
+/**
+ * Package transform coordinate between earth(WGS-84) and mars in china(GCJ-02).
+ * @package larryli\eviltransform
+ */
 class EvilTransform
 {
-
+    /**
+     * outOfChina
+     * @param float $lat
+     * @param float $lng
+     * @return bool
+     */
     private static function outOfChina($lat, $lng)
     {
         if ($lng < 72.004 || $lng > 137.8347) {
@@ -15,6 +25,12 @@ class EvilTransform
         return false;
     }
 
+    /**
+     * transform
+     * @param float $x
+     * @param float $y
+     * @return float[]
+     */
     private static function transform($x, $y)
     {
         $xy = $x * $y;
@@ -33,13 +49,19 @@ class EvilTransform
         $lat += (160.0 * sin($y / 12.0 * pi()) + 320 * sin($y / 30.0 * pi())) * 2.0 / 3.0;
         $lng += (150.0 * sin($x / 12.0 * pi()) + 300.0 * sin($x / 30.0 * pi())) * 2.0 / 3.0;
 
-        return array($lat, $lng);
+        return [$lat, $lng];
     }
 
+    /**
+     * delta
+     * @param float $lat
+     * @param float $lng
+     * @return float[] [$lat, $lng]
+     */
     private static function delta($lat, $lng)
     {
-        /*const */$a = 6378245.0;
-        /*const */$ee = 0.00669342162296594323;
+        $a = 6378245.0;
+        $ee = 0.00669342162296594323;
         list($dLat, $dLng) = self::transform($lng - 105.0, $lat - 35.0);
         $radLat = $lat / 180.0 * pi();
         $magic = sin($radLat);
@@ -47,53 +69,67 @@ class EvilTransform
         $sqrtMagic = sqrt($magic);
         $dLat = ($dLat * 180.0) / (($a * (1 - $ee)) / ($magic * $sqrtMagic) * pi());
         $dLng = ($dLng * 180.0) / ($a / $sqrtMagic * cos($radLat) * pi());
-        return array($dLat, $dLng);
+        return [$dLat, $dLng];
     }
 
-    // WGStoGCJ convert WGS-84 coordinate(wgsLat, wgsLng) to GCJ-02 coordinate(gcjLat, gcjLng).
+    /**
+     * WGStoGCJ convert WGS-84 coordinate(wgsLat, wgsLng) to GCJ-02 coordinate(gcjLat, gcjLng).
+     * @param float $wgsLat
+     * @param float $wgsLng
+     * @return float[] [$gcjLat, $gcjLng]
+     */
     public static function WGStoGCJ($wgsLat, $wgsLng)
     {
         if (self::outOfChina($wgsLat, $wgsLng)) {
-            list($gcjLat, $gcjLng) = array($wgsLat, $wgsLng);
-            return array($gcjLat, $gcjLng);
+            return [$wgsLat, $wgsLng];
         }
         list($dLat, $dLng) = self::delta($wgsLat, $wgsLng);
-        list($gcjLat, $gcjLng) = array($wgsLat + $dLat, $wgsLng + $dLng);
-        return array($gcjLat, $gcjLng);
+        return [$wgsLat + $dLat, $wgsLng + $dLng];
     }
 
-    // GCJtoWGS convert GCJ-02 coordinate(gcjLat, gcjLng) to WGS-84 coordinate(wgsLat, wgsLng).
-    // The output WGS-84 coordinate's accuracy is 1m to 2m. If you want more exactly result, use GCJtoWGSExact/gcj2wgs_exact.
+    /**
+     * GCJtoWGS convert GCJ-02 coordinate(gcjLat, gcjLng) to WGS-84 coordinate(wgsLat, wgsLng).
+     *
+     * The output WGS-84 coordinate's accuracy is 1m to 2m. If you want more exactly result, use GCJtoWGSExact/gcj2wgs_exact.
+     * @param float $gcjLat
+     * @param float $gcjLng
+     * @return float[] [$wgsLat, $wgsLng]
+     */
     public static function GCJtoWGS($gcjLat, $gcjLng)
     {
         if (self::outOfChina($gcjLat, $gcjLng)) {
-            list($wgsLat, $wgsLng) = array($gcjLat, $gcjLng);
-            return array($wgsLat, $wgsLng);
+            return [$gcjLat, $gcjLng];
         }
         list($dLat, $dLng) = self::delta($gcjLat, $gcjLng);
-        list($wgsLat, $wgsLng) = array($gcjLat - $dLat, $gcjLng - $dLng);
-        return array($wgsLat, $wgsLng);
+        return [$gcjLat - $dLat, $gcjLng - $dLng];
     }
 
-    // GCJtoWGSExact convert GCJ-02 coordinate(gcjLat, gcjLng) to WGS-84 coordinate(wgsLat, wgsLng).
-    // The output WGS-84 coordinate's accuracy is less than 0.5m, but much slower than GCJtoWGS/gcj2wgs.
+    /**
+     * GCJtoWGSExact convert GCJ-02 coordinate(gcjLat, gcjLng) to WGS-84 coordinate(wgsLat, wgsLng).
+     *
+     * The output WGS-84 coordinate's accuracy is less than 0.5m, but much slower than GCJtoWGS/gcj2wgs.
+     * @param float $gcjLat
+     * @param float $gcjLng
+     * @return float[] [$wgsLat, $wgsLng]
+     */
     public static function GCJtoWGSExact($gcjLat, $gcjLng)
     {
-        /*const */$initDelta = 0.01;
-        /*const */$threshold = 0.000001;
+        $initDelta = 0.01;
+        $threshold = 0.000001;
         // list($tmpLat, $tmpLng) = self::GCJtoWGS($gcjLat, $gcjLng);
         // list($tryLat, $tryLng) = self::WGStoGCJ($tmpLat, $tmpLng);
-        // list($dLat, $dLng) = array(abs($tmpLat-$tryLat), abs($tmpLng-$tryLng));
-        list($dLat, $dLng) = array($initDelta, $initDelta);
-        list($mLat, $mLng) = array($gcjLat - $dLat, $gcjLng - $dLng);
-        list($pLat, $pLng) = array($gcjLat + $dLat, $gcjLng + $dLng);
+        // list($dLat, $dLng) = [abs($tmpLat-$tryLat), abs($tmpLng-$tryLng)];
+        list($dLat, $dLng) = [$initDelta, $initDelta];
+        list($mLat, $mLng) = [$gcjLat - $dLat, $gcjLng - $dLng];
+        list($pLat, $pLng) = [$gcjLat + $dLat, $gcjLng + $dLng];
+        list($wgsLat, $wgsLng) = [false, false];
         for ($i = 0; $i < 30; $i++) {
-            list($wgsLat, $wgsLng) = array(($mLat + $pLat) / 2, ($mLng + $pLng) / 2);
+            list($wgsLat, $wgsLng) = [($mLat + $pLat) / 2, ($mLng + $pLng) / 2];
             list($tmpLat, $tmpLng) = self::WGStoGCJ($wgsLat, $wgsLng);
-            list($dLat, $dLng) = array($tmpLat - $gcjLat, $tmpLng - $gcjLng);
+            list($dLat, $dLng) = [$tmpLat - $gcjLat, $tmpLng - $gcjLng];
             if (abs($dLat) < $threshold && abs($dLng) < $threshold) {
                 // echo("i:", $i);
-                return array($wgsLat, $wgsLng);
+                return [$wgsLat, $wgsLng];
             }
             if ($dLat > 0) {
                 $pLat = $wgsLat;
@@ -106,15 +142,26 @@ class EvilTransform
                 $mLng = $wgsLng;
             }
         }
-        return array($wgsLat, $wgsLng);
+        return [$wgsLat, $wgsLng];
     }
 
-    // Distance calculate the distance between point(latA, lngA) and point(latB, lngB), unit in meter.
+    /**
+     * Distance calculate the distance between point(latA, lngA) and point(latB, lngB), unit in meter.
+     * @param float $latA lat of the point A
+     * @param float $lngA lng of the point A
+     * @param float $latB lat of the point B
+     * @param float $lngB lng of the point B
+     * @return float distance, unit in meter
+     */
     public static function Distance($latA, $lngA, $latB, $lngB)
     {
-        /*const */$earthR = 6371000;
-        $x = cos($latA * pi() / 180) * cos($latB * pi() / 180) * cos(($lngA - $lngB) * pi() / 180);
-        $y = sin($latA * pi() / 180) * sin($latB * pi() / 180);
+        $earthR = 6371000;
+        $latA *= pi() / 180;
+        $lngA *= pi() / 180;
+        $latB *= pi() / 180;
+        $lngB *= pi() / 180;
+        $x = cos($latA) * cos($latB) * cos($lngA - $lngB);
+        $y = sin($latA) * sin($latB);
         $s = $x + $y;
         if ($s > 1) {
             $s = 1;
@@ -122,9 +169,6 @@ class EvilTransform
         if ($s < -1) {
             $s = -1;
         }
-        $alpha = acos($s);
-        $distance = $alpha * $earthR;
-        return $distance;
+        return acos($s) * $earthR;
     }
-
 }

@@ -7,7 +7,7 @@ GCJ-02 coordiante is used by Google Maps, Autonavi Map and other china map servi
 	func WGStoGCJ(wgsLat, wgsLng float64) (gcjLat, gcjLng float64) // Go/Golang
 	void wgs2gcj(double wgsLat, double wgsLng, double *gcjLat, double *gcjLng) // C/C++/Obj-C
 	eviltransform.wgs2gcj(wgsLat, wgsLng) // JavaScript/Python
-	EvilTransform::WGStoGCJ($wgsLat, $wgsLng) // PHP
+	\larryli\eviltransform\EvilTransform::WGStoGCJ($wgsLat, $wgsLng) // PHP5.4+
 	EvilTransform.Transform.WGS2GCJ(wgsLat, wgsLng) // CSharp
 	wgs2Gcj (gcjLat, gcjLng) // Haskell
 
@@ -20,7 +20,7 @@ Input WGS-84 coordinate(wgsLat, wgsLng) and convert to GCJ-02 coordinate(gcjLat,
 	func GCJtoWGS(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) // Go/Golang
 	void gcj2wgs(double gcjLat, double gcjLng, double *wgsLat, double *wgsLnt) // C/C++/Obj-C
 	eviltransform.gcj2wgs(gcjLat, gcjLng) // JavaScript/Python
-	EvilTransform::GCJtoWGS($gcjLat, $gcjLng) // PHP
+	\larryli\eviltransform\EvilTransform::GCJtoWGS($gcjLat, $gcjLng) // PHP5.4+
 	EvilTransform.Transform.GCJ2WGS(gcjLat, gcjLng) //CSharp
 	gcj2Wgs (gcjLat, gcjLng) // Haskell
 
@@ -35,7 +35,7 @@ The output WGS-84 coordinate's accuracy is 1m to 2m. If you want more exactly re
 	func GCJtoWGSExact(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) // Go/Golang
 	void gcj2wgs_exact(double gcjLat, double gcjLng, double *wgsLat, double *wgsLnt) // C/C++/Obj-C
 	eviltransform.gcj2wgs_exact(gcjLat, gcjLng) // JavaScript/Python
-	EvilTransform::GCJtoWGSExact($gcjLat, $gcjLng) // PHP
+	\larryli\eviltransform\EvilTransform::GCJtoWGSExact($gcjLat, $gcjLng) // PHP5.4+
 	EvilTransform.Transform.GCJ2WGSExact(gcjLat, gcjLng) //CSharp
 	gcj2WgsExact (gcjLat, gcjLng) //Haskell
 
@@ -50,7 +50,7 @@ The output WGS-84 coordinate's accuracy is less than 0.5m, but much slower than 
 	func Distance(latA, lngA, latB, lngB float64) float64 // Go/Golang
 	double distance(double latA, double lngA, double latB, double lngB) // C/C++/Obj-C
 	eviltransform.distance(latA, lngA, latB, lngB) // JavaScript/Python
-	EvilTransform::Distance($latA, $lngA, $latB, $lngB) // PHP
+	\larryli\eviltransform\EvilTransform::Distance($latA, $lngA, $latB, $lngB) // PHP5.4+
 	EvilTransform.Transform.Distance(latA, lngA, latB, lngB) //CSharp
 	distance (lat, lng)
 
@@ -78,7 +78,7 @@ GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度�
 	func WGStoGCJ(wgsLat, wgsLng float64) (gcjLat, gcjLng float64) // Go/Golang
 	void wgs2gcj(double wgsLat, double wgsLng, double *gcjLat, double *gcjLng) // C/C++/Obj-C
 	eviltransform.wgs2gcj(wgsLat, wgsLng) // JavaScript/Python
-	EvilTransform::WGStoGCJ($wgsLat, $wgsLng) // PHP
+	\larryli\eviltransform\EvilTransform::WGStoGCJ($wgsLat, $wgsLng) // PHP5.4+
 	EvilTransform.Transform.WGS2GCJ(wgsLat, wgsLng) // CSharp
 	wgs2Gcj (gcjLat, gcjLng) // Haskell
 
@@ -91,7 +91,7 @@ GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度�
 	func GCJtoWGS(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) // Go/Golang
 	void gcj2wgs(double gcjLat, double gcjLng, double *wgsLat, double *wgsLnt) // C/C++/Obj-C
 	eviltransform.gcj2wgs(gcjLat, gcjLng) // JavaScript/Python
-	EvilTransform::GCJtoWGS($gcjLat, $gcjLng) // PHP
+	\larryli\eviltransform\EvilTransform::GCJtoWGS($gcjLat, $gcjLng) // PHP5.4+
 	EvilTransform.Transform.GCJ2WGS(gcjLat, gcjLng) //CSharp
 	gcj2Wgs (gcjLat, gcjLng) // Haskell
 
@@ -106,7 +106,7 @@ GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度�
 	func GCJtoWGSExact(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) // Go/Golang
 	void gcj2wgs_exact(double gcjLat, double gcjLng, double *wgsLat, double *wgsLnt) // C/C++/Obj-C
 	eviltransform.gcj2wgs_exact(gcjLat, gcjLng) // JavaScript/Python
-	EvilTransform::GCJtoWGSExact($gcjLat, $gcjLng) // PHP
+	\larryli\eviltransform\EvilTransform::GCJtoWGSExact($gcjLat, $gcjLng) // PHP5.4+
 	EvilTransform.Transform.GCJ2WGSExact(gcjLat, gcjLng) //CSharp
 	gcj2WgsExact (gcjLat, gcjLng) //Haskell
 
@@ -121,7 +121,7 @@ GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度�
 	func Distance(latA, lngA, latB, lngB float64) float64 // Go/Golang
 	double distance(double latA, double lngA, double latB, double lngB) // C/C++/Obj-C
 	eviltransform.distance(latA, lngA, latB, lngB) // JavaScript/Python
-	EvilTransform::Distance($latA, $lngA, $latB, $lngB) // PHP
+	\larryli\eviltransform\EvilTransform::Distance($latA, $lngA, $latB, $lngB) // PHP5.4+
 	EvilTransform.Transform.Distance(latA, lngA, latB, lngB) //CSharp
 	distance (lat, lng)
 
