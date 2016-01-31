@@ -1,4 +1,4 @@
-# Easily Transform between nice and evil. <br/> 在善恶间随意转换。
+# Easily Transform between nice and evil. <br/> 在善恶间随意转换。[![npm version](https://badge.fury.io/js/eviltransform.svg)](https://badge.fury.io/js/eviltransform)
 
 This project contains implementations for conversion between the WGS-84 
 "Earth" coordinate system used by GPS and the Evil GCJ-02 "Mars" system
