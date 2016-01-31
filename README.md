@@ -74,7 +74,7 @@ Calculates the distance between point(latA, lngA) and point(latB, lngB), in mete
 This implementation assumes the Earth to be perfectly round; you may wan to use some
 real [ellipsoid formulas][geodesics] with the [WGS-84][enwpwgs] model.
 
-计算经纬坐标 A (latA, lngA) 和 B (latB, lngB) 之间的距离，按米计。此函数假定地球为完美圆形，你可能会想用一些真正的[椭球体距离][geodesics]计算公式，代入 [WGS-84][enwpwgs] 模型数据使用。
+计算经纬坐标 A (latA, lngA) 和 B (latB, lngB) 之间的距离，按米计。此函数假定地球为完美球形，你可能会想用一些真正的[椭球体距离][geodesics]计算公式，代入 [WGS-84][enwpwgs] 模型数据使用。
 
 ## Original Implmentations<br/>算法来源
 
