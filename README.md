@@ -1,122 +1,66 @@
-# Transform coordinate between earth(WGS-84) and mars in china(GCJ-02).
+# Easily Transform between nice and evil. <br/> 在善恶间随意转换。
 
-GCJ-02 coordiante is used by Google Maps, Autonavi Map and other china map service. (Baidu Map has an extra offset based on GCJ-02)
+This project contains implementations for conversion between the WGS-84 
+"Earth" coordinate system used by GPS and the Evil GCJ-02 "Mars" system
+used in China.
 
-## WGStoGCJ/wgs2gcj
+此项目提供 WGS-84 GPS 坐标系和中国国家标准 GCJ-02 “火星”坐标系的转换实现。GCJ-02 坐标系由包括谷歌和高德导航在内的很多地图提供商用于中国的地图上。这个坐标系提供一些“加密”功能，通过加上一坨坨三角函数避免了解析解的存在。本项目提供近似算法。
 
-	func WGStoGCJ(wgsLat, wgsLng float64) (gcjLat, gcjLng float64) // Go/Golang
-	void wgs2gcj(double wgsLat, double wgsLng, double *gcjLat, double *gcjLng) // C/C++/Obj-C
-	eviltransform.wgs2gcj(wgsLat, wgsLng) // JavaScript/Python
-	EvilTransform::WGStoGCJ($wgsLat, $wgsLng) // PHP
-	EvilTransform.Transform.WGS2GCJ(wgsLat, wgsLng) // CSharp
-	wgs2Gcj (gcjLat, gcjLng) // Haskell
+GCJ-02 is a coordinate system in China's national standard. As a result,
+many map providers like Google Maps and Autonavi use this for their Chinese
+maps. It features some 'encryption' with bunches of trig functions so no
+analytical solutions for the reverse are possible. We approximated one.
 
-Input WGS-84 coordinate(wgsLat, wgsLng) and convert to GCJ-02 coordinate(gcjLat, gcjLng). The output of JavaScript is like:
+Now we have added support for BD-09, a more evil coordinate system with added
+offsets from GCJ02 by Baidu.
 
-	{"lat": xx.xxxx, "lng": yy.yyyy}
+本项目新增了度娘坐标系 BD-09 的转换算法。这个算法是百度在 GCJ-02 之上再加偏的结果。
 
-## GCJtoWGS/gcj2wgs
+## Transformation functions<br/>转换函数
 
-	func GCJtoWGS(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) // Go/Golang
-	void gcj2wgs(double gcjLat, double gcjLng, double *wgsLat, double *wgsLnt) // C/C++/Obj-C
-	eviltransform.gcj2wgs(gcjLat, gcjLng) // JavaScript/Python
-	EvilTransform::GCJtoWGS($gcjLat, $gcjLng) // PHP
-	EvilTransform.Transform.GCJ2WGS(gcjLat, gcjLng) //CSharp
-	gcj2Wgs (gcjLat, gcjLng) // Haskell
+The functions are named like `sysA<to>sysB<exact>`, but we use different
+cases and `to`'s in different languages. Here is a table:
 
-Input GCJ-02 coordinate(gcjLat, gcjLng) and convert to WGS-84 coordinate(wgsLat, wgsLng). The output of JavaScript is like:
+函数的命名类似 `sysA<to>sysB<exact>`，但是我们的大小写和表示 `to` 的方法在各个语言内稍有不同（lower 为小写，upper 为大写，camel 为小驼峰）：
 
-	{"lat": xx.xxxx, "lng": yy.yyyy}
+Language  | "to" | "exact" | Case   | Naming Example
+----------|------|---------|--------|---------------
+Golang    | `to` | `Exact` | upper  | `func WGStoGCJExact(wgsLat, wgsLng float64) (gcjLat, gcjLng float64)`
+(Obj)C(++)| `2`  | `_exact`| lower  | `void wgs2gcj_exact(double wgsLat, double wgsLng, double *gcjLat, double *gcjLng)`
+JS & Py   | `2`  | `_exact`| lower  | `eviltransform.wgs2gcj_exact(wgsLat, wgsLng)`
+PHP       | `to` | `Exact` | upper  | `EvilTransform::WGStoGCJExact($wgsLat, $wgsLng)`
+C#        | `2`  | `Exact` | upper  | `EvilTransform.Transform.WGS2GCJExact(wgsLat, wgsLng)`
+Haskell   | `2`  | `Exact` | camel  | `wgs2GcjExact (gcjLat, gcjLng)`
 
-The output WGS-84 coordinate's accuracy is 1m to 2m. If you want more exactly result, use GCJtoWGSExact/gcj2wgs_exact.
+Mappings between these coordinates has been defined:
 
-## GCJtoWGSExact/gcj2wgs_exact
+我们定义了以下转换函数：
 
-	func GCJtoWGSExact(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) // Go/Golang
-	void gcj2wgs_exact(double gcjLat, double gcjLng, double *wgsLat, double *wgsLnt) // C/C++/Obj-C
-	eviltransform.gcj2wgs_exact(gcjLat, gcjLng) // JavaScript/Python
-	EvilTransform::GCJtoWGSExact($gcjLat, $gcjLng) // PHP
-	EvilTransform.Transform.GCJ2WGSExact(gcjLat, gcjLng) //CSharp
-	gcj2WgsExact (gcjLat, gcjLng) //Haskell
+From| To  | API Name in JS | Approx. Error | Remarks
+----|-----|----------------|---------------|--------
+WGS | GCJ | `wgs2gcj`      | Exact
+GCJ | WGS | `gcj2wgs`      | 1m ~ 2m
+GCJ | WGS | `gcj2wgs_exact`| 0.5m          | Iterative, much slower. 迭代，慢很多。
+GCJ | BD  | `gcj2bd`       | Unknown
+BD  | GCJ | `bd2gcj`       | Unknown
+BD  | WGS | `bd2wgs`       | Unknown       | BD &rarr; GCJ &rarr; WGS
+WGS | BD  | `wgs2bd`       | Unknown       | WGS &rarr; GCJ &rarr; BD
 
-Input GCJ-02 coordinate(gcjLat, gcjLng) and convert to WGS-84 coordinate(wgsLat, wgsLng). The output of JavaScript is like:
+From these you should be able to figure out the names of all the functions.
 
-	{"lat": xx.xxxx, "lng": yy.yyyy}
+聪明的你从这两张表格可以脑补出任意语言的任意函数名了。
 
-The output WGS-84 coordinate's accuracy is less than 0.5m, but much slower than GCJtoWGS/gcj2wgs.
+For all functions, the result looks like this in JavaScript implementation:
 
-## Distance/distance
+每个函数的 JavaScript 返回值格式都如下所示：
 
-	func Distance(latA, lngA, latB, lngB float64) float64 // Go/Golang
-	double distance(double latA, double lngA, double latB, double lngB) // C/C++/Obj-C
-	eviltransform.distance(latA, lngA, latB, lngB) // JavaScript/Python
-	EvilTransform::Distance($latA, $lngA, $latB, $lngB) // PHP
-	EvilTransform.Transform.Distance(latA, lngA, latB, lngB) //CSharp
-	distance (lat, lng)
+```JS
+{ "lat": xx.xxxx /* Number */, "lng": yy.yyyy /* Number */}
+```
 
-Calculate the distance between point(latA, lngA) and point(latB, lngB), unit in meter.
+## Misc functions<br/>杂项函数
 
-## Original from:
-
- - https://on4wp7.codeplex.com/SourceControl/changeset/view/21483#353936
- - http://emq.googlecode.com/svn/emq/src/Algorithm/Coords/Converter.java
-
-## See also:
-
- - http://blog.csdn.net/coolypf/article/details/8686588
- - http://cxzy.people.com.cn/GB/196034/14908095.html
- - https://github.com/Leask/EvilTransform
-
----
-
-# 地球坐标（WGS-84）与火星坐标（GCJ－2）转换.
-
-GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度地图要在GCJ-02基础上再加转换）
-
-## WGStoGCJ/wgs2gcj
-
-	func WGStoGCJ(wgsLat, wgsLng float64) (gcjLat, gcjLng float64) // Go/Golang
-	void wgs2gcj(double wgsLat, double wgsLng, double *gcjLat, double *gcjLng) // C/C++/Obj-C
-	eviltransform.wgs2gcj(wgsLat, wgsLng) // JavaScript/Python
-	EvilTransform::WGStoGCJ($wgsLat, $wgsLng) // PHP
-	EvilTransform.Transform.WGS2GCJ(wgsLat, wgsLng) // CSharp
-	wgs2Gcj (gcjLat, gcjLng) // Haskell
-
-输入WGS-84地球坐标(wgsLat, wgsLng)，转换为GCJ-02火星坐标(gcjLat, gcjLng)。JavaScript输出格式如下：
-
-	{"lat": xx.xxxx, "lng": yy.yyyy}
-
-## GCJtoWGS/gcj2wgs
-
-	func GCJtoWGS(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) // Go/Golang
-	void gcj2wgs(double gcjLat, double gcjLng, double *wgsLat, double *wgsLnt) // C/C++/Obj-C
-	eviltransform.gcj2wgs(gcjLat, gcjLng) // JavaScript/Python
-	EvilTransform::GCJtoWGS($gcjLat, $gcjLng) // PHP
-	EvilTransform.Transform.GCJ2WGS(gcjLat, gcjLng) //CSharp
-	gcj2Wgs (gcjLat, gcjLng) // Haskell
-
-输入GCJ-02火星坐标(gcjLat, gcjLng)，转换为WGS－84地球坐标(wgsLat, wgsLng)。JavaScript输出格式如下：
-
-	{"lat": xx.xxxx, "lng": yy.yyyy}
-
-输出的WGS-84坐标精度为1米到2米之间。如果要更精确的结果，使用GCJtoWGSExact/gcj2wgs_exact。
-
-## GCJtoWGSExact/gcj2wgs_exact
-
-	func GCJtoWGSExact(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) // Go/Golang
-	void gcj2wgs_exact(double gcjLat, double gcjLng, double *wgsLat, double *wgsLnt) // C/C++/Obj-C
-	eviltransform.gcj2wgs_exact(gcjLat, gcjLng) // JavaScript/Python
-	EvilTransform::GCJtoWGSExact($gcjLat, $gcjLng) // PHP
-	EvilTransform.Transform.GCJ2WGSExact(gcjLat, gcjLng) //CSharp
-	gcj2WgsExact (gcjLat, gcjLng) //Haskell
-
-输入GCJ-02火星坐标(gcjLat, gcjLng)，转换为WGS－84地球坐标(wgsLat, wgsLng)。JavaScript 输出格式如下：
-
-	{"lat": xx.xxxx, "lng": yy.yyyy}
-
-输出的WGS-84坐标精度为0.5米内，但是计算速度慢于GCJtoWGS/gcj2wgs。
-
-## Distance/distance
+### `distance`
 
 	func Distance(latA, lngA, latB, lngB float64) float64 // Go/Golang
 	double distance(double latA, double lngA, double latB, double lngB) // C/C++/Obj-C
@@ -125,15 +69,17 @@ GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度�
 	EvilTransform.Transform.Distance(latA, lngA, latB, lngB) //CSharp
 	distance (lat, lng)
 
-计算点(latA, lngA)和点(latB, lngB)之间的距离，单位为米。
+Calculates the distance between point(latA, lngA) and point(latB, lngB), in meters.
 
+计算经纬坐标 A (latA, lngA) 和 B (latB, lngB) 之间的距离，按米计。
 
-## 算法来源:
+## Original Implmentation<br/>算法来源
 
  - https://on4wp7.codeplex.com/SourceControl/changeset/view/21483#353936
  - http://emq.googlecode.com/svn/emq/src/Algorithm/Coords/Converter.java
+ - https://github.com/Leask/EvilTransform (BD-09, #12)
 
-## 参考:
+## See also<br/>参见
 
  - http://blog.csdn.net/coolypf/article/details/8686588
  - http://cxzy.people.com.cn/GB/196034/14908095.html
