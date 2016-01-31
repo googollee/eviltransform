@@ -3,7 +3,7 @@
 
 #include "transform.h"
 
-int outOfChina(double lat, double lng) {
+static int outOfChina(double lat, double lng) {
 	if (lng < 72.004 || lng > 137.8347) {
 		return 1;
 	}
@@ -31,7 +31,7 @@ void transform(double x, double y, double *lat, double *lng) {
 	*lng += (150.0*sin(x/12.0*M_PI) + 300.0*sin(x/30.0*M_PI)) * 2.0 / 3.0;
 }
 
-void delta(double lat, double lng, double *dLat, double *dLng) {
+static void delta(double lat, double lng, double *dLat, double *dLng) {
 	if ((dLat == NULL) || (dLng == NULL)) {
 		return;
 	}
@@ -97,7 +97,7 @@ void gcj2wgs_exact(double gcjLat, double gcjLng, double *wgsLat, double *wgsLng)
 }
 
 // 1 - cos(x) == 2 sin^2(x/2)
-double oneMinusCos(double x)
+static double oneMinusCos(double x)
 {
 	double s = sin(x/2);
 	return s*s*2;
