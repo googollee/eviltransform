@@ -64,30 +64,19 @@ function gcj2wgs(gcjLat, gcjLng) {
 exports.gcj2wgs = gcj2wgs;
 
 function gcj2wgs_exact(gcjLat, gcjLng) {
-	var initDelta = 0.01;
-	var threshold = 0.000001;
-	var dLat = initDelta, dLng = initDelta;
-	var mLat = gcjLat-dLat, mLng = gcjLng-dLng;
-	var pLat = gcjLat+dLat, pLng = gcjLng+dLng;
-	var wgsLat, wgsLng;
+	var initGuess = gcj2wgs(gcjLat, gcjLng);
+	var wgsLat = initGuess.lat, wgsLng = initGuess.lng;
+	var threshold = 0.000001; // ~0.55 m equator & latitude
 	for (var i = 0; i < 30; i++) {
-		wgsLat = (mLat+pLat)/2;
-		wgsLng = (mLng+pLng)/2;
-		var tmp = wgs2gcj(wgsLat, wgsLng)
-		dLat = tmp.lat-gcjLat;
-		dLng = tmp.lng-gcjLng;
+		var tmp = wgs2gcj(wgsLat, wgsLng);
+		wgsLat = tmp.lat;
+		wgsLng = tmp.lng;
+		dLat = wgsLat-gcjLat;
+		dLng = wgsLat-gcjLng;
+		// Should there be checks to ensure dLat and dLng is better than
+		// last time too?
 		if ((Math.abs(dLat) < threshold) && (Math.abs(dLng) < threshold)) {
-			return {"lat": wgsLat, "lng": wgsLng};
-		}
-		if (dLat > 0) {
-			pLat = wgsLat;
-		} else {
-			mLat = wgsLat;
-		}
-		if (dLng > 0) {
-			pLng = wgsLng;
-		} else {
-			mLng = wgsLng;
+			break;
 		}
 	}
 	return {"lat": wgsLat, "lng": wgsLng};
