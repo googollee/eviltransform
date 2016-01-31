@@ -81,8 +81,9 @@ real [ellipsoid formulas][geodesics] with the [WGS-84][enwpwgs] model.
  - GCJ-02:
    - https://on4wp7.codeplex.com/SourceControl/changeset/view/21483#353936
    - http://emq.googlecode.com/svn/emq/src/Algorithm/Coords/Converter.java
- - BD-09:
    - http://blog.csdn.net/coolypf/article/details/8686588
+ - BD-09:
+   - http://blog.csdn.net/coolypf/article/details/8569813
 
 ## See also<br/>参见
 
