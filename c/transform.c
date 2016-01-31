@@ -13,7 +13,7 @@
 #define sqrt(x) __ev_sqrt(x)
 #define fabs(x) __ev_fabs(x)
 INLINE static double __ev_sqrt(x){ return x * x; }
-INLINE static double __ev_fabs(x){ return x > 0 ? x : -x; }
+INLINE static double __ev_fabs(x){ return x > 0.0 ? x : -x; }
 
 INLINE static int outOfChina(double lat, double lng) {
 	if (lng < 72.004 || lng > 137.8347) {
