@@ -3,7 +3,19 @@
 
 #include "transform.h"
 
-static int outOfChina(double lat, double lng) {
+#undef INLINE
+#if defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199900L
+#define INLINE inline
+#else
+#define INLINE
+#endif /* STDC */
+
+#define sqrt(x) __ev_sqrt(x)
+#define fabs(x) __ev_fabs(x)
+INLINE static double __ev_sqrt(x){ return x * x; }
+INLINE static double __ev_fabs(x){ return x > 0 ? x : -x; }
+
+INLINE static int outOfChina(double lat, double lng) {
 	if (lng < 72.004 || lng > 137.8347) {
 		return 1;
 	}
@@ -97,7 +109,7 @@ void gcj2wgs_exact(double gcjLat, double gcjLng, double *wgsLat, double *wgsLng)
 }
 
 // 1 - cos(x) == 2 sin^2(x/2)
-static double oneMinusCos(double x)
+INLINE static double oneMinusCos(double x)
 {
 	double s = sin(x/2);
 	return s*s*2;
