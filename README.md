@@ -74,15 +74,16 @@ Calculates the distance between point(latA, lngA) and point(latB, lngB), in mete
 
 计算经纬坐标 A (latA, lngA) 和 B (latB, lngB) 之间的距离，按米计。
 
-## Original Implmentation<br/>算法来源
+## Original Implmentations<br/>算法来源
 
- - https://on4wp7.codeplex.com/SourceControl/changeset/view/21483#353936
- - http://emq.googlecode.com/svn/emq/src/Algorithm/Coords/Converter.java
- - https://github.com/JackZhouCn/JZLocationConverter (BD-09, #12)
+ - GCJ-02:
+   - https://on4wp7.codeplex.com/SourceControl/changeset/view/21483#353936
+   - http://emq.googlecode.com/svn/emq/src/Algorithm/Coords/Converter.java
+ - BD-09:
+   - http://blog.csdn.net/coolypf/article/details/8686588
 
 ## See also<br/>参见
 
- - https://github.com/caijun/geoChina/blob/master/R/cst.R
- - http://blog.csdn.net/coolypf/article/details/8686588
- - http://cxzy.people.com.cn/GB/196034/14908095.html
- - https://github.com/Leask/EvilTransform
+ - All Algos: https://github.com/caijun/geoChina/blob/master/R/cst.R
+ - GCJ-02: https://github.com/Leask/EvilTransform
+ - GCJ-02: http://cxzy.people.com.cn/GB/196034/14908095.html
