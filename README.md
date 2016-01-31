@@ -71,8 +71,10 @@ For all functions, the result looks like this in JavaScript implementation:
 	distance (lat, lng)
 
 Calculates the distance between point(latA, lngA) and point(latB, lngB), in meters.
+This implementation assumes the Earth to be perfectly round; you may wan to use some
+real ellipsoid formulas with the [WGS-84][enwpwgs] model.
 
-计算经纬坐标 A (latA, lngA) 和 B (latB, lngB) 之间的距离，按米计。
+计算经纬坐标 A (latA, lngA) 和 B (latB, lngB) 之间的距离，按米计。此函数假定地球为完美圆形，你可能会想用一些真正的椭球体距离计算公式，代入 [WGS-84][enwpwgs] 模型数据使用。
 
 ## Original Implmentations<br/>算法来源
 
@@ -87,3 +89,5 @@ Calculates the distance between point(latA, lngA) and point(latB, lngB), in mete
  - All Algos: https://github.com/caijun/geoChina/blob/master/R/cst.R
  - GCJ-02: https://github.com/Leask/EvilTransform
  - GCJ-02: http://cxzy.people.com.cn/GB/196034/14908095.html
+
+[enwpwgs]: https://en.wikipedia.org/wiki/World_Geodetic_System#WGS84
