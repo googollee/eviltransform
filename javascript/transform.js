@@ -1,3 +1,4 @@
+"use strict";
 var exports;
 if (typeof module === "object" && exports) {
 	exports = module.exports;
