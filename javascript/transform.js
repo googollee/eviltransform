@@ -68,18 +68,16 @@ function gcj2wgs(gcjLat, gcjLng) {
 exports.gcj2wgs = gcj2wgs;
 
 function gcj2wgs_exact(gcjLat, gcjLng) {
-	var initGuess = gcj2wgs(gcjLat, gcjLng);
-	var wgsLat = initGuess.lat, wgsLng = initGuess.lng;
+	var wgsLat = gcjLat, wgsLng = gcjLng;
 	var threshold = 0.000001; // ~0.55 m equator & latitude
+	
 	for (var i = 0; i < 30; i++) {
-		var tmp = wgs2gcj(wgsLat, wgsLng);
-		wgsLat = tmp.lat;
-		wgsLng = tmp.lng;
-		dLat = wgsLat-gcjLat;
-		dLng = wgsLat-gcjLng;
+		var gcjDiff = gcjDelta(wgsLat, wgsLng);
+		wgsLat -= gcjDiff.lat;
+		wgsLng -= gcjDiff.lng;
 		// Should there be checks to ensure dLat and dLng is better than
 		// last time too?
-		if ((Math.abs(dLat) < threshold) && (Math.abs(dLng) < threshold)) {
+		if ((Math.abs(gcjDiff.lat) < threshold) && (Math.abs(gcjDiff.lng) < threshold)) {
 			break;
 		}
 	}
