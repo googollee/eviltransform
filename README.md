@@ -4,12 +4,13 @@ This project contains implementations for conversion between the WGS-84
 "Earth" coordinate system used by GPS and the Evil GCJ-02 "Mars" system
 used in China.
 
-此项目提供 WGS-84 GPS 坐标系和中国国家标准 GCJ-02 “火星”坐标系的转换实现。GCJ-02 坐标系由包括谷歌和高德导航在内的很多地图提供商用于中国的地图上。这个坐标系提供一些“加密”功能，通过加上一坨坨三角函数避免了解析解的存在。本项目提供近似算法。
+此项目提供 WGS-84 GPS 坐标系和中国国家标准 GCJ-02 “火星”坐标系的转换实现。GCJ-02 坐标系由包括谷歌和高德导航在内的很多地图提供商用于中国的地图上。这个坐标系提供一些“加密”功能，通过加上一坨坨三角函数避免了解析解的存在。本项目提供近似算法。欲知详情，请阅读“参见”中的《geoChina》一条。
 
 GCJ-02 is a coordinate system in China's national standard. As a result,
 many map providers like Google Maps and Autonavi use this for their Chinese
 maps. It features some 'encryption' with bunches of trig functions so no
-analytical solutions for the reverse are possible. We approximated one.
+analytical solutions for the reverse are possible, but approximations are
+not too hard. For more info, read *geoChina* in see-also.
 
 Now we have added support for BD-09, a more evil coordinate system with added
 offsets from GCJ02 by Baidu.
@@ -77,10 +78,11 @@ Calculates the distance between point(latA, lngA) and point(latB, lngB), in mete
 
  - https://on4wp7.codeplex.com/SourceControl/changeset/view/21483#353936
  - http://emq.googlecode.com/svn/emq/src/Algorithm/Coords/Converter.java
- - https://github.com/Leask/EvilTransform (BD-09, #12)
+ - https://github.com/JackZhouCn/JZLocationConverter (BD-09, #12)
 
 ## See also<br/>参见
 
+ - https://github.com/caijun/geoChina/blob/master/R/cst.R
  - http://blog.csdn.net/coolypf/article/details/8686588
  - http://cxzy.people.com.cn/GB/196034/14908095.html
  - https://github.com/Leask/EvilTransform
