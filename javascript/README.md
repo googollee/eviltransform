@@ -1,94 +1,68 @@
-# Transform coordinate between earth(WGS-84) and mars in china(GCJ-02).
+# Easily Transform between nice and evil. <br/> 在善恶间随意转换。[![npm version](https://badge.fury.io/js/eviltransform.svg)](https://badge.fury.io/js/eviltransform)
 
-GCJ-02 coordiante is used by Google Maps, Autonavi Map and other china map service. (Baidu Map has an extra offset based on GCJ-02)
+This project contains implementations for conversion between the WGS-84 
+"Earth" coordinate system used by GPS and the Evil GCJ-02 "Mars" system
+used in China.
 
-## WGStoGCJ/wgs2gcj
+此项目提供 WGS-84 GPS 坐标系和中国国家标准 GCJ-02 “火星”坐标系的转换实现。GCJ-02 坐标系由包括谷歌和高德导航在内的很多地图提供商用于中国的地图上。这个坐标系提供一些“加密”功能，通过加上一坨坨三角函数避免了解析解的存在。本项目提供近似算法。欲知详情，请阅读“参见”中的《geoChina》一条。
 
- 	func WGStoGCJ(wgsLat, wgsLng float64) (gcjLat, gcjLng float64) // Go/Golang
- 	void wgs2gcj(double wgsLat, double wgsLng, double *gcjLat, double *gcjLng) // C/C++/Obj-C
- 	eviltransform.wgs2gcj(wgsLat, wgsLng) // javascript
+GCJ-02 is a coordinate system in China's national standard. As a result,
+many map providers like Google Maps and Autonavi use this for their Chinese
+maps. It features some 'encryption' with bunches of trig functions so no
+analytical solutions for the reverse are possible, but approximations are
+not too hard. For more info, read *geoChina* in see-also.
 
-Input WGS-84 coordinate(wgsLat, wgsLng) and convert to GCJ-02 coordinate(gcjLat, gcjLng). The output of javascript is like:
+Now we have added support for BD-09, a more evil coordinate system with added
+offsets from GCJ02 by Baidu.
 
-	{"lat": xx.xxxx, "lng": yy.yyyy}
+本项目新增了度娘坐标系 BD-09 的转换算法。这个算法是百度在 GCJ-02 之上再加偏的结果。
 
-## GCJtoWGS/gcj2wgs
+## Transformation functions<br/>转换函数
 
-	func GCJtoWGS(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) // Go/Golang
-	void gcj2wgs(double gcjLat, double gcjLng, double *wgsLat, double *wgsLnt) // C/C++/Obj-C
-	eviltransform.gcj2wgs(gcjLat, gcjLng) // javascript
+Mappings between these coordinates has been defined:
 
-Input GCJ-02 coordinate(gcjLat, gcjLng) and convert to WGS-84 coordinate(wgsLat, wgsLng). The output of javascript is like:
+我们定义了以下转换函数：
 
-	{"lat": xx.xxxx, "lng": yy.yyyy}
+From| To  | API Name in JS | Approx. Error | Remarks
+----|-----|----------------|---------------|--------
+WGS | GCJ | `wgs2gcj`      | Exact
+GCJ | WGS | `gcj2wgs`      | 1m ~ 2m
+GCJ | WGS | `gcj2wgs_exact`| 0.5m          | Iterative, slower. 迭代，稍慢。
+GCJ | BD  | `gcj2bd`       | Unknown
+BD  | GCJ | `bd2gcj`       | Unknown
+BD  | WGS | `bd2wgs`       | Unknown       | BD &rarr; GCJ &rarr; WGS
+WGS | BD  | `wgs2bd`       | Unknown       | WGS &rarr; GCJ &rarr; BD
 
-The output WGS-84 coordinate's accuracy is 1m to 2m. If you want more exactly result, use GCJtoWGSExact/gcj2wgs_exact.
+For all functions, the input are just two `Number`s for latitude and longitude
+respectively, e.g.:
 
-## GCJtoWGSExact/gcj2wgs_exact
+每个函数的输入参数都只是分别表示经纬度的两个数字：
 
-	func GCJtoWGSExact(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) // Go/Golang
-	void gcj2wgs_exact(double gcjLat, double gcjLng, double *wgsLat, double *wgsLnt) // C/C++/Obj-C
-	eviltransform.gcj2wgs_exact(gcjLat, gcjLng) // javascript
+```JS
+exports.wgs2gcj = function(wgsLat, wgsLng) { /* ... */ }
+```
 
-Input GCJ-02 coordinate(gcjLat, gcjLng) and convert to WGS-84 coordinate(wgsLat, wgsLng). The output of javascript is like:
+For all functions, the result looks like this:
 
-	{"lat": xx.xxxx, "lng": yy.yyyy}
+每个函数的 JavaScript 返回值格式都如下所示：
 
-The output WGS-84 coordinate's accuracy is less than 0.5m, but much slower than GCJtoWGS/gcj2wgs.
+```JS
+{ "lat": xx.xxxx /* Number */, "lng": yy.yyyy /* Number */}
+```
 
-## Distance/distance
+## Misc functions<br/>杂项函数
 
-	func Distance(latA, lngA, latB, lngB float64) float64 // Go/Golang
-	double distance(double latA, double lngA, double latB, double lngB) // C/C++/Obj-C
-	eviltransform.distance(latA, lngA, latB, lngB) // javascript
+### `distance`
 
-Calculate the distance between point(latA, lngA) and point(latB, lngB), unit in meter.
+```JS
+exports.distance = function (latA, lngA, latB, lngB) { /* ... */ }
+```
 
-# 地球坐标（WGS-84）与火星坐标（GCJ－2）转换.
+Calculates the distance between point(latA, lngA) and point(latB, lngB), in meters.
+This implementation assumes the Earth to be perfectly round; you may wan to use some
+real [ellipsoid formulas][geodesics] with the [WGS-84][enwpwgs] model.
 
-GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度地图要在GCJ-02基础上再加转换）
-
-## WGStoGCJ/wgs2gcj
-
- 	func WGStoGCJ(wgsLat, wgsLng float64) (gcjLat, gcjLng float64) // Go/Golang
- 	void wgs2gcj(double wgsLat, double wgsLng, double *gcjLat, double *gcjLng) // C/C++/Obj-C
- 	eviltransform#wgs2gcj(wgsLat, wgsLng) // javascript
-
-输入WGS-84地球坐标(wgsLat, wgsLng)，转换为GCJ-02火星坐标(gcjLat, gcjLng)。javascript输出格式如下：
-
-	{"lat": xx.xxxx, "lng": yy.yyyy}
-
-## GCJtoWGS/gcj2wgs
-
-	func GCJtoWGS(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) // Go/Golang
-	void gcj2wgs(double gcjLat, double gcjLng, double *wgsLat, double *wgsLnt) // C/C++/Obj-C
-	eviltransform#gcj2wgs(gcjLat, gcjLng) // javascript
-
-输入GCJ-02火星坐标(gcjLat, gcjLng)，转换为WGS－84地球坐标(wgsLat, wgsLng)。javascript输出格式如下：
-
-	{"lat": xx.xxxx, "lng": yy.yyyy}
-
-输出的WGS-84坐标精度为1米到2米之间。如果要更精确的结果，使用GCJtoWGSExact/gcj2wgs_exact。
-
-## GCJtoWGSExact/gcj2wgs_exact
-
-	func GCJtoWGSExact(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) // Go/Golang
-	void gcj2wgs_exact(double gcjLat, double gcjLng, double *wgsLat, double *wgsLnt) // C/C++/Obj-C
-	eviltransform#gcj2wgs_exact(gcjLat, gcjLng) // javascript
-
-输入GCJ-02火星坐标(gcjLat, gcjLng)，转换为WGS－84地球坐标(wgsLat, wgsLng)。javascript输出格式如下：
-
-	{"lat": xx.xxxx, "lng": yy.yyyy}
-
-输出的WGS-84坐标精度为0.5米内，但是计算速度慢于GCJtoWGS/gcj2wgs。
-
-## Distance/distance
-
-	func Distance(latA, lngA, latB, lngB float64) float64 // Go/Golang
-	double distance(double latA, double lngA, double latB, double lngB) // C/C++/Obj-C
-	eviltransform#distance(latA, lngA, latB, lngB) // javascript
-
-计算点(latA, lngA)和点(latB, lngB)之间的距离，单位为米。
+计算经纬坐标 A (latA, lngA) 和 B (latB, lngB) 之间的距离，按米计。此函数假定地球为完美圆形，你可能会想用一些真正的[椭球体距离][geodesics]计算公式，代入 [WGS-84][enwpwgs] 模型数据使用。
 
 ## Usage in browser
 
@@ -97,11 +71,11 @@ $ bower install googollee/eviltransform
 eviltransform.gcj2wgs(lat, lng)
 ```
 
-## 百度BD-09
+## See also<br/>参见
 
-```javascript
-bd2wgs(lat, lng)  // BD-09 -> WGS-84
-wgs2bd(lat, lng)  // WGS-84 -> BD-02
-bd2gcj(lat, lng)  // BD-09 -> GCJ-02
-gcj2bd(lat, lng)  // GCJ-02 -> BD-09
-```
+ - All Algos: https://github.com/caijun/geoChina/blob/master/R/cst.R
+ - GCJ-02: http://blog.csdn.net/coolypf/article/details/8686588
+ - BD-09: http://blog.csdn.net/coolypf/article/details/8569813
+
+[enwpwgs]: https://en.wikipedia.org/wiki/World_Geodetic_System#WGS84
+[geodesics]: https://en.wikipedia.org/wiki/Geodesics_on_an_ellipsoid#Software_implementations
