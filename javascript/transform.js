@@ -1,8 +1,8 @@
-var exports
+var exports;
 if (typeof module === "object" && exports) {
-	exports = module.exports
+	exports = module.exports;
 } else if (typeof window !== "undefined") {
-	exports = window["eviltransform"] = {}
+	exports = window["eviltransform"] = {};
 }
 
 function outOfChina(lat, lng) {
@@ -132,13 +132,13 @@ function bd2gcj(bdLat, bdLng) {
 exports.bd2gcj = bd2gcj;
 
 function wgs2bd(wgsLat, wgsLng) {
-	var gcj = wgs2gcj(wgsLat, wgsLng)
-	return gcj2bd(gcj.lat, gcj.lng)
+	var gcj = wgs2gcj(wgsLat, wgsLng);
+	return gcj2bd(gcj.lat, gcj.lng);
 }
 exports.wgs2bd = wgs2bd;
 
 function bd2wgs(bdLat, bdLng) {
-	var gcj = bd2gcj(bdLat, bdLng)
-	return gcj2wgs(gcj.lat, gcj.lng)
+	var gcj = bd2gcj(bdLat, bdLng);
+	return gcj2wgs(gcj.lat, gcj.lng);
 }
 exports.bd2wgs = bd2wgs;
