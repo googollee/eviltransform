@@ -71,19 +71,11 @@ $ bower install googollee/eviltransform
 eviltransform.gcj2wgs(lat, lng)
 ```
 
-## Original Implmentations<br/>算法来源
-
- - GCJ-02:
-   - https://on4wp7.codeplex.com/SourceControl/changeset/view/21483#353936
-   - http://emq.googlecode.com/svn/emq/src/Algorithm/Coords/Converter.java
- - BD-09:
-   - http://blog.csdn.net/coolypf/article/details/8686588
-
 ## See also<br/>参见
 
  - All Algos: https://github.com/caijun/geoChina/blob/master/R/cst.R
- - GCJ-02: https://github.com/Leask/EvilTransform
- - GCJ-02: http://cxzy.people.com.cn/GB/196034/14908095.html
+ - GCJ-02: http://blog.csdn.net/coolypf/article/details/8686588
+ - BD-09: http://blog.csdn.net/coolypf/article/details/8569813
 
 [enwpwgs]: https://en.wikipedia.org/wiki/World_Geodetic_System#WGS84
 [geodesics]: https://en.wikipedia.org/wiki/Geodesics_on_an_ellipsoid#Software_implementations
