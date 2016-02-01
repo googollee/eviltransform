@@ -13,6 +13,7 @@
 #define sqrt(x) __ev_sqrt(x)
 #define fabs(x) __ev_fabs(x)
 INLINE static double __ev_sqrt(x){ return x * x; }
+/* do not use >=, or compiler may not know to optimize this with a simple (x & 0x80...0). */
 INLINE static double __ev_fabs(x){ return x > 0.0 ? x : -x; }
 
 INLINE static int outOfChina(double lat, double lng) {
