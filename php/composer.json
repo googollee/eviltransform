@@ -1,18 +1,33 @@
 {
     "name": "larryli/eviltransform",
     "description": "Transform coordinate between earth(WGS-84) and mars in china(GCJ-02).",
+    "homepage": "https://github.com/googollee/eviltransform",
     "minimum-stability": "stable",
+    "type": "library",
     "license": "proprietary",
     "authors": [
         {
             "name": "Larry Li",
             "email": "larryli@qq.com"
+        },
+        {
+            "name": "Googol Lee",
+            "email": "i@googol.im"
         }
     ],
     "require": {
-        "php": ">=5.0"
+        "php": ">=5.4"
     },
     "require-dev": {
         "phpunit/phpunit": "3.7.*"
+    },
+    "support": {
+        "issues": "https://github.com/googollee/eviltransform/issues",
+        "source": "https://github.com/googollee/eviltransform"
+    },
+    "autoload": {
+        "psr-4": {
+            "larryli\\eviltransform\\": ""
+        }
     }
 }

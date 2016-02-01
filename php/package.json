@@ -1,0 +1,39 @@
+{
+    "uid": "https://github.com/googollee/eviltransform",
+    "name": "eviltransform",
+    "version": "2.0.0",
+    "label": "EvilTransform Library",
+    "repositories": [
+        {
+            "type": "git",
+            "url": "git://github.com/larryli/eviltransform-php.git"
+        }
+    ],
+    "maintainers": [
+        {
+            "name": "Larry Li",
+            "email": "larryli@qq.com",
+            "web": "https://larryli.cn/",
+            "alias": {
+                "github": "larryli"
+            }
+        }
+    ],
+    "contributors": [
+        {
+            "name": "Larry Li",
+            "email": "larryli@qq.com",
+            "web": "https://larryli.cn/",
+            "alias": {
+                "github": "larryli"
+            }
+        },
+        {
+            "name": "Googol Lee",
+            "email": "i@googol.im",
+            "alias": {
+                "github": "googollee"
+            }
+        }
+    ]
+}
