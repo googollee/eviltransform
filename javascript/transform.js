@@ -72,16 +72,16 @@ function gcj2wgs_exact(gcjLat, gcjLng) {
 	// newCoord = oldCoord = gcjCoord
 	var newLat = gcjLat, newLng = gcjLng;
 	var oldLat = newLat, oldLng = newLng;
-	var threshold = 0.000001; // ~0.55 m equator & latitude
+	var threshold = 1e-6; // ~0.55 m equator & latitude
 	
 	for (var i = 0; i < 30 && ; i++) {
 		// oldCoord = newCoord
 		oldLat = newLat;
 		oldLng = newLng;
-		// newCoord = wgs_to_gcj_delta(oldCoord) + gcjCoord
-		var gcjDiff = gcjDelta(oldLat,oldLng);
-		newLat = gcjDiff.lat + gcjLat;
-		newLng = gcjDiff.lng + gcjLng;
+		// newCoord = gcjCoord - wgs_to_gcj_delta(newCoord)
+		var gcjDiff = gcjDelta(newLat,newLng);
+		newLat = gcjLat - gcjDiff.lat;
+		newLng = gcjLng - gcjDiff.lng;
 		// diffchk
 		if (Math.max(Math.abs(oldLat - newLat), Math.abs(oldLng - newLng)) < threshold) {
 			break;
