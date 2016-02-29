@@ -83,7 +83,7 @@ function gcj2wgs_exact(gcjLat, gcjLng) {
 		newLat = gcjDiff.lat + gcjLat;
 		newLng = gcjDiff.lng + gcjLng;
 		// diffchk
-		if (Math.max(Math.abs(oldLat - newLat), Math.abs(oldLng, newLng)) < threshold) {
+		if (Math.max(Math.abs(oldLat - newLat), Math.abs(oldLng - newLng)) < threshold) {
 			break;
 		}
 	}
@@ -95,13 +95,7 @@ function distance(latA, lngA, latB, lngB) {
 	var earthR = 6371000;
 	var x = Math.cos(latA*Math.PI/180) * Math.cos(latB*Math.PI/180) * Math.cos((lngA-lngB)*Math.PI/180);
 	var y = Math.sin(latA*Math.PI/180) * Math.sin(latB*Math.PI/180);
-	var s = x + y;
-	if (s > 1) {
-		s = 1;
-	}
-	if (s < -1) {
-		s = -1;
-	}
+	var s = Math.max(Math.min(x + y, 1), -1);
 	var alpha = Math.acos(s);
 	var distance = alpha * earthR;
 	return distance;
