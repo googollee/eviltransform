@@ -110,7 +110,7 @@ public struct LocationTransform {
             return [latKey: bdLat, lonKey: bdLon]
         }
         let x = bdLon - 0.0065, y = bdLat - 0.006
-        let z = sqrt(x * x + y + y) - 0.00002 * sin(y * π)
+        let z = sqrt(x * x + y * y) - 0.00002 * sin(y * π)
         let theta = atan2(y, x) - 0.000003 * cos(x * π)
         let gcjLon = z * cos(theta)
         let gcjLat = z * sin(theta)
