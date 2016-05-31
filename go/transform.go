@@ -81,9 +81,6 @@ func GCJtoWGS(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) {
 func GCJtoWGSExact(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) {
 	const initDelta = 0.01
 	const threshold = 0.000001
-	// tmpLat, tmpLng := GCJtoWGS(gcjLat, gcjLng)
-	// tryLat, tryLng := WGStoGCJ(tmpLat, tmpLng)
-	// dLat, dLng := math.Abs(tmpLat-tryLat), math.Abs(tmpLng-tryLng)
 	dLat, dLng := initDelta, initDelta
 	mLat, mLng := gcjLat-dLat, gcjLng-dLng
 	pLat, pLng := gcjLat+dLat, gcjLng+dLng
@@ -92,7 +89,6 @@ func GCJtoWGSExact(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) {
 		tmpLat, tmpLng := WGStoGCJ(wgsLat, wgsLng)
 		dLat, dLng = tmpLat-gcjLat, tmpLng-gcjLng
 		if math.Abs(dLat) < threshold && math.Abs(dLng) < threshold {
-			// fmt.Println("i:", i)
 			return
 		}
 		if dLat > 0 {
