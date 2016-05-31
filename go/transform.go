@@ -20,16 +20,16 @@ func transform(x, y float64) (lat, lng float64) {
 	absX := math.Sqrt(math.Abs(x))
 	xPi := x * math.Pi
 	yPi := y * math.Pi
-	d := (20.0*math.Sin(6.0*xPi) + 20.0*math.Sin(2.0*xPi))
+	d := 20.0*math.Sin(6.0*xPi) + 20.0*math.Sin(2.0*xPi)
 
 	lat = d
 	lng = d
 
-	lat += (20.0*math.Sin(yPi) + 40.0*math.Sin(yPi/3.0))
-	lng += (20.0*math.Sin(xPi) + 40.0*math.Sin(xPi/3.0))
+	lat += 20.0*math.Sin(yPi) + 40.0*math.Sin(yPi/3.0)
+	lng += 20.0*math.Sin(xPi) + 40.0*math.Sin(xPi/3.0)
 
-	lat += (160.0*math.Sin(yPi/12.0) + 320*math.Sin(yPi/30.0))
-	lng += (150.0*math.Sin(xPi/12.0) + 300.0*math.Sin(xPi/30.0))
+	lat += 160.0*math.Sin(yPi/12.0) + 320*math.Sin(yPi/30.0)
+	lng += 150.0*math.Sin(xPi/12.0) + 300.0*math.Sin(xPi/30.0)
 
 	lat *= 2.0 / 3.0
 	lng *= 2.0 / 3.0
