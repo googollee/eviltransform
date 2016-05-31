@@ -2,16 +2,16 @@ package transform
 
 import (
 	"fmt"
-	"github.com/googollee/go-assert"
+	"math"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
-type Test struct {
+var tests = []struct {
 	wgsLat, wgsLng float64
 	gcjLat, gcjLng float64
-}
-
-var tests = []Test{
+}{
 	{31.1774276, 121.5272106, 31.17530398364597, 121.531541859215}, // shanghai
 	{22.543847, 113.912316, 22.540796131694766, 113.9171764808363}, // shenzhen
 	{39.911954, 116.377817, 39.91334545536069, 116.38404722455657}, // beijing
@@ -43,6 +43,21 @@ func TestGtoWExact(t *testing.T) {
 		wgsLat, wgsLng := GCJtoWGSExact(test.gcjLat, test.gcjLng)
 		d := Distance(wgsLat, wgsLng, test.wgsLat, test.wgsLng)
 		assert.Equal(t, d < 0.5, true, "test %d, distance: %f", i, d)
+	}
+}
+
+func TestDistance(t *testing.T) {
+	tests := []struct {
+		aLat, aLng float64
+		bLat, bLng float64
+		distance   float64
+	}{
+		{31.17530398364597, 121.531541859215, 39.91334545536069, 116.38404722455657, 1076958}, // shanghai to beijing
+	}
+	for i, test := range tests {
+		d := Distance(test.aLat, test.aLng, test.bLat, test.bLng)
+		delta := math.Abs(d - test.distance)
+		assert.True(t, delta < 1, "test %d", i)
 	}
 }
 
