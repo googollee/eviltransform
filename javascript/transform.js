@@ -64,11 +64,12 @@ function gcj2wgs(gcjLat, gcjLng) {
 exports.gcj2wgs = gcj2wgs;
 
 function gcj2wgs_exact(gcjLat, gcjLng) {
-	var initDelta = 0.01;
+	var initDelta = 0.1;
 	var threshold = 0.000001;
 	var dLat = initDelta, dLng = initDelta;
-	var mLat = gcjLat-dLat, mLng = gcjLng-dLng;
-	var pLat = gcjLat+dLat, pLng = gcjLng+dLng;
+	var initGuess = gcj2wgs(gcjLat, gcjLng);
+	var mLat = initGuess.lat-dLat, mLng = initGuess.lng-dLng;
+	var pLat = initGuess.lat+dLat, pLng = initGuess.lng+dLng;
 	var wgsLat, wgsLng;
 	for (var i = 0; i < 30; i++) {
 		wgsLat = (mLat+pLat)/2;
