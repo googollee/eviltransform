@@ -1,6 +1,6 @@
 {
   "name": "eviltransform",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Transform coordinate between earth(WGS-84) and mars in china(GCJ-02).",
   "main": "transform.js",
   "scripts": {

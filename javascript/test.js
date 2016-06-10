@@ -1,3 +1,5 @@
+"use strict";
+
 var transform = require('./transform.js');
 
 var tests = [
