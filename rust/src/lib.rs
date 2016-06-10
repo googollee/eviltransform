@@ -124,7 +124,7 @@ pub fn distance(lat_a: f64, lng_a: f64, lat_b: f64, lng_b: f64) -> f64 {
 #[cfg(test)]
 mod tests {
     #[test]
-    fn distance_test() {
+    fn test_distance() {
     	struct Test {
     		a_lat: f64,
             a_lng: f64,
@@ -160,7 +160,7 @@ mod tests {
     }
 
     #[test]
-    fn wgs2gcj_test() {
+    fn test_wgs2gcj() {
         for test in TESTS.iter() {
             let (gcj_lat, gcj_lng) = super::wgs2gcj(test.wgs_lat, test.wgs_lng);
             let got = to_string(gcj_lat, gcj_lng);
@@ -170,7 +170,7 @@ mod tests {
     }
 
     #[test]
-    fn gcj2wgs_test() {
+    fn test_gcj2wgs() {
     	for test in TESTS.iter() {
     		let (wgs_lat, wgs_lng) = super::gcj2wgs(test.gcj_lat, test.gcj_lng);
     		let d = super::distance(wgs_lat, wgs_lng, test.wgs_lat, test.wgs_lng);
@@ -179,7 +179,7 @@ mod tests {
     }
 
     #[test]
-    fn gcj2wgs_exact_test() {
+    fn test_gcj2wgs_exact() {
     	for test in TESTS.iter() {
     		let (wgs_lat, wgs_lng) = super::gcj2wgs_exact(test.gcj_lat, test.gcj_lng);
     		let d = super::distance(wgs_lat, wgs_lng, test.wgs_lat, test.wgs_lng);
