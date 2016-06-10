@@ -12,35 +12,35 @@ def outOfChina(lat, lng):
     return not (72.004 <= lng <= 137.8347 and 0.8293 <= lat <= 55.8271)
 
 
-def transformLat(x, y):
-    ret = (-100.0 + 2.0 * x + 3.0 * y + 0.2 * y *
-           y + 0.1 * x * y + 0.2 * math.sqrt(abs(x)))
-    ret += (20.0 * math.sin(6.0 * x * math.pi) + 20.0 *
-            math.sin(2.0 * x * math.pi)) * 2.0 / 3.0
-    ret += (20.0 * math.sin(y * math.pi) + 40.0 *
-            math.sin(y / 3.0 * math.pi)) * 2.0 / 3.0
-    ret += (160.0 * math.sin(y / 12.0 * math.pi) + 320 *
-            math.sin(y * math.pi / 30.0)) * 2.0 / 3.0
-    return ret
+def transform(x, y):
+	xy = x * y
+	absX = math.sqrt(abs(x))
+	xPi = x * math.pi
+	yPi = y * math.pi
+	d = 20.0*math.sin(6.0*xPi) + 20.0*math.sin(2.0*xPi)
 
+	lat = d
+	lng = d
 
-def transformLon(x, y):
-    ret = (300.0 + x + 2.0 * y + 0.1 * x * x +
-           0.1 * x * y + 0.1 * math.sqrt(abs(x)))
-    ret += (20.0 * math.sin(6.0 * x * math.pi) + 20.0 *
-            math.sin(2.0 * x * math.pi)) * 2.0 / 3.0
-    ret += (20.0 * math.sin(x * math.pi) + 40.0 *
-            math.sin(x / 3.0 * math.pi)) * 2.0 / 3.0
-    ret += (150.0 * math.sin(x / 12.0 * math.pi) + 300.0 *
-            math.sin(x / 30.0 * math.pi)) * 2.0 / 3.0
-    return ret
+	lat += 20.0*math.sin(yPi) + 40.0*math.sin(yPi/3.0)
+	lng += 20.0*math.sin(xPi) + 40.0*math.sin(xPi/3.0)
+
+	lat += 160.0*math.sin(yPi/12.0) + 320*math.sin(yPi/30.0)
+	lng += 150.0*math.sin(xPi/12.0) + 300.0*math.sin(xPi/30.0)
+
+	lat *= 2.0 / 3.0
+	lng *= 2.0 / 3.0
+
+	lat += -100.0 + 2.0*x + 3.0*y + 0.2*y*y + 0.1*xy + 0.2*absX
+	lng += 300.0 + x + 2.0*y + 0.1*x*x + 0.1*xy + 0.1*absX
+
+	return lat, lng
 
 
 def delta(lat, lng):
     a = 6378137.0
     ee = 0.00669342162296594323
-    dLat = transformLat(lng - 105.0, lat - 35.0)
-    dLng = transformLon(lng - 105.0, lat - 35.0)
+    dLat, dLng = transform(lng-105.0, lat-35.0)
     radLat = lat / 180.0 * math.pi
     magic = math.sin(radLat)
     magic = 1 - ee * magic * magic
@@ -95,9 +95,12 @@ def gcj2wgs_exact(gcjLat, gcjLng):
 
 def distance(latA, lngA, latB, lngB):
     earthR = 6371000
-    x = (math.cos(latA * math.pi / 180) * math.cos(latB * math.pi / 180) *
-         math.cos((lngA - lngB) * math.pi / 180))
-    y = math.sin(latA * math.pi / 180) * math.sin(latB * math.pi / 180)
+    pi180 = math.pi / 180
+    arcLatA = latA * pi180
+    arcLatB = latB * pi180
+    x = (math.cos(arcLatA) * math.cos(arcLatB) *
+         math.cos((lngA - lngB) * pi180))
+    y = math.sin(arcLatA) * math.sin(arcLatB)
     s = x + y
     if s > 1:
         s = 1
