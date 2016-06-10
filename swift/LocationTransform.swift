@@ -12,7 +12,7 @@ public struct LocationTransform {
         }
         return false
     }
-    
+
     static func transformLat(#x: Double, y: Double) -> Double {
         var ret = -100.0 + 2.0 * x + 3.0 * y + 0.2 * y * y
         ret += 0.1 * x * y + 0.2 * sqrt(abs(x))
@@ -21,7 +21,7 @@ public struct LocationTransform {
         ret += (160.0 * sin(y / 12.0 * π) + 320 * sin(y * π / 30.0)) * 2.0 / 3.0
         return ret
     }
-    
+
     static func transformLon(#x: Double, y: Double) -> Double {
         var ret = 300.0 + x + 2.0 * y + 0.1 * x * x
         ret += 0.1 * x * y + 0.1 * sqrt(abs(x))
@@ -30,9 +30,9 @@ public struct LocationTransform {
         ret += (150.0 * sin(x / 12.0 * π) + 300.0 * sin(x / 30.0 * π)) * 2.0 / 3.0
         return ret
     }
-    
+
     static func delta(#lat: Double, lon: Double) -> (Double, Double) {
-        let r = 6378245.0
+        let r = 6378137.0
         let ee = 0.00669342162296594323
         let radLat = lat / 180.0 * π
         var magic = sin(radLat)
@@ -60,7 +60,7 @@ public struct LocationTransform {
         let (dLat, dLon) = delta(lat: gcjLat, lon: gcjLon)
         return [latKey: gcjLat - dLat, lonKey: gcjLon - dLon]
     }
-    
+
     static func gcj2wgs_exact(gcjLat: Double, gcjLon: Double) -> [String: Double] {
         let initDelta = 0.01, threshold = 0.000001
         var dLat = initDelta
@@ -92,7 +92,7 @@ public struct LocationTransform {
         }
         return [latKey: wgsLat, lonKey: wgsLon]
     }
-    
+
     static func gcj2bd(gcjLat: Double, gcjLon: Double) -> [String: Double] {
         if isOutOfChina(lat: gcjLat, lon: gcjLon) {
             return [latKey: gcjLat, lonKey: gcjLon]
@@ -104,7 +104,7 @@ public struct LocationTransform {
         let bdLat = z * sin(theta) + 0.006
         return [latKey: bdLat, lonKey: bdLon]
     }
-    
+
     static func bd2gcj(bdLat: Double, bdLon: Double) -> [String: Double] {
         if isOutOfChina(lat: bdLat, lon: bdLon) {
             return [latKey: bdLat, lonKey: bdLon]
@@ -116,12 +116,12 @@ public struct LocationTransform {
         let gcjLat = z * sin(theta)
         return [latKey: gcjLat, lonKey: gcjLon]
     }
-    
+
     static func wgs2bd(wgsLat: Double, wgsLon: Double) -> [String: Double] {
         let gcj = wgs2gcj(wgsLat, wgsLon: wgsLon) as [String: Double]
         return gcj2bd(gcj[latKey]!, gcjLon: gcj[lonKey]!)
     }
-    
+
     static func bd2wgs(bdLat: Double, bdLon: Double) -> [String: Double] {
         let gcj = bd2gcj(bdLat, bdLon: bdLon) as [String: Double]
         return gcj2wgs(gcj[latKey]!, gcjLon: gcj[lonKey]!)

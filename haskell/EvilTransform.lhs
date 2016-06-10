@@ -1,6 +1,6 @@
 > module EvilTransform where
 
->     type Latitude   = Double 
+>     type Latitude   = Double
 >     type Longitude  = Double
 >     type Coordinate = (Latitude, Longitude)
 
@@ -28,14 +28,14 @@
 
 >     delte :: Coordinate -> Coordinate
 >     delte (lat, lng) = (dLat, dLng)
->         where a         = 6378245.0
+>         where a         = 6378137.0
 >               ee        = 0.00669342162296594323
 >               radLat    = lat / 180.0 * pi
 >               _magic    = sin radLat
 >               magic     = 1 - ee * _magic * _magic
 >               sqrtMagic = sqrt magic
 >               _dLat     = transformLat (lng-105.0) (lat-35.0)
->               _dLng     = transformLon (lng-105.0) (lat-35.0)            
+>               _dLng     = transformLon (lng-105.0) (lat-35.0)
 >               dLat      = (_dLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * pi)
 >               dLng      = (_dLng * 180.0) / (a / sqrtMagic * cos(radLat) * pi)
 
@@ -63,7 +63,7 @@
 >               x = cos(latA * pi / 180) * cos(latB * pi /180) * cos( (lngA - lngB) * pi /180)
 >               y = sin(latA * pi / 180) * sin(latB * pi /180)
 >               s = x + y
->               f = (\s -> acos(s) * earchR)     
+>               f = (\s -> acos(s) * earchR)
 
 
 >     gcj2WgsExact :: Coordinate -> Coordinate
@@ -82,7 +82,7 @@
 >            -> Double -- pLat
 >            -> Double -- pLng
 >            -> Coordinate
->     gainOn i gcjLat gcjLng mLat mLng pLat pLng 
+>     gainOn i gcjLat gcjLng mLat mLng pLat pLng
 >         | i >= 29  = (wgsLat, wgsLng)
 >         | (lessThanThreshold dLat) && (lessThanThreshold dLng) = (wgsLat, wgsLng)
 >         | otherwise = let _pLat = if (dLat >  0) then wgsLat else pLat

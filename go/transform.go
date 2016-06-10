@@ -41,7 +41,7 @@ func transform(x, y float64) (lat, lng float64) {
 }
 
 func delta(lat, lng float64) (dLat, dLng float64) {
-	const a = 6378245.0
+	const a = 6378137.0
 	const ee = 0.00669342162296594323
 	dLat, dLng = transform(lng-105.0, lat-35.0)
 	radLat := lat / 180.0 * math.Pi

@@ -126,7 +126,7 @@ void gcj2wgs_exact(double gcjLat, double gcjLng, double *wgsLat, double *wgsLng)
 }
 
 double distance(double latA, double lngA, double latB, double lngB) {
-	const double earthR = 6371000;
+	const double earthR = 6378137;
 	double arcLatA = latA * M_PI/180;
 	double arcLatB = latB * M_PI/180;
 	double x = cos(arcLatA) * cos(arcLatB) * cos((lngA-lngB)*M_PI/180);

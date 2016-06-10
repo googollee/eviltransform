@@ -43,7 +43,7 @@ function transform(x, y) {
 }
 
 function delta(lat, lng) {
-	var a = 6378245.0;
+	var a = 6378137.0;
 	var ee = 0.00669342162296594323;
 	var d = transform(lng-105.0, lat-35.0);
 	var radLat = lat / 180.0 * Math.PI;

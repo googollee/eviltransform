@@ -37,7 +37,7 @@ def transformLon(x, y):
 
 
 def delta(lat, lng):
-    a = 6378245.0
+    a = 6378137.0
     ee = 0.00669342162296594323
     dLat = transformLat(lng - 105.0, lat - 35.0)
     dLng = transformLon(lng - 105.0, lat - 35.0)

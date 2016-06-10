@@ -49,7 +49,7 @@ namespace EvilTransform
         PointLatLng Delta(double lat, double lng)
         {
             PointLatLng ret = new PointLatLng();
-            double a = 6378245.0;
+            double a = 6378137.0;
             double ee = 0.00669342162296594323;
             double dLat = TransformLat(lng - 105.0, lat - 35.0);
             double dLng = TransformLon(lng - 105.0, lat - 35.0);

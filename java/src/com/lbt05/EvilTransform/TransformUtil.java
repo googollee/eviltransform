@@ -28,14 +28,14 @@ public class TransformUtil {
     return ret;
   }
   /**
-   * 
+   *
    * @param lat纬度
    * @param lng经度
-   * @return delta[0] 是纬度差，delta[1]是经度差 
+   * @return delta[0] 是纬度差，delta[1]是经度差
    */
   public static double[] delta(double lat,double lng){
     double[] delta = new double[2];
-    double a = 6378245.0;
+    double a = 6378137.0;
     double ee = 0.00669342162296594323;
     double dLat = transformLat(lng-105.0, lat-35.0);
     double dLng = transformLon(lng-105.0, lat-35.0);

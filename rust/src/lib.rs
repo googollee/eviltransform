@@ -36,7 +36,7 @@ fn transform(x: f64, y: f64) -> (f64, f64) {
 }
 
 fn delta(lat: f64, lng: f64) -> (f64, f64) {
-	let a = 6378245.0;
+	let a = 6378137.0;
 	let ee = 0.00669342162296594323;
 	let (d_lat, d_lng) = transform(lng-105.0, lat-35.0);
     let mut d_lat = d_lat;

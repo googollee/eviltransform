@@ -60,7 +60,7 @@ class EvilTransform
      */
     private static function delta($lat, $lng)
     {
-        $a = 6378245.0;
+        $a = 6378137.0;
         $ee = 0.00669342162296594323;
         list($dLat, $dLng) = self::transform($lng - 105.0, $lat - 35.0);
         $radLat = $lat / 180.0 * pi();
