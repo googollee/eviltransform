@@ -52,12 +52,12 @@ func TestDistance(t *testing.T) {
 		bLat, bLng float64
 		distance   float64
 	}{
-		{31.17530398364597, 121.531541859215, 39.91334545536069, 116.38404722455657, 1076958}, // shanghai to beijing
+		{31.17530398364597, 121.531541859215, 39.91334545536069, 116.38404722455657, 1078164}, // shanghai to beijing
 	}
 	for i, test := range tests {
 		d := Distance(test.aLat, test.aLng, test.bLat, test.bLng)
 		delta := math.Abs(d - test.distance)
-		assert.True(t, delta < 1, "test %d", i)
+		assert.True(t, delta < 1, "test %d, distance: %f", i, d)
 	}
 }
 

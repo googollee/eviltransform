@@ -5,6 +5,8 @@ import (
 	"math"
 )
 
+const earthR = 6378137
+
 func outOfChina(lat, lng float64) bool {
 	if lng < 72.004 || lng > 137.8347 {
 		return true
@@ -41,15 +43,14 @@ func transform(x, y float64) (lat, lng float64) {
 }
 
 func delta(lat, lng float64) (dLat, dLng float64) {
-	const a = 6378137.0
 	const ee = 0.00669342162296594323
 	dLat, dLng = transform(lng-105.0, lat-35.0)
 	radLat := lat / 180.0 * math.Pi
 	magic := math.Sin(radLat)
 	magic = 1 - ee*magic*magic
 	sqrtMagic := math.Sqrt(magic)
-	dLat = (dLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * math.Pi)
-	dLng = (dLng * 180.0) / (a / sqrtMagic * math.Cos(radLat) * math.Pi)
+	dLat = (dLat * 180.0) / ((earthR * (1 - ee)) / (magic * sqrtMagic) * math.Pi)
+	dLng = (dLng * 180.0) / (earthR / sqrtMagic * math.Cos(radLat) * math.Pi)
 	return
 }
 
@@ -107,10 +108,10 @@ func GCJtoWGSExact(gcjLat, gcjLng float64) (wgsLat, wgsLng float64) {
 
 // Distance calculate the distance between point(latA, lngA) and point(latB, lngB), unit in meter.
 func Distance(latA, lngA, latB, lngB float64) float64 {
-	const earthR = 6371000
-	arcLatA := latA * math.Pi / 180
-	arcLatB := latB * math.Pi / 180
-	x := math.Cos(arcLatA) * math.Cos(arcLatB) * math.Cos((lngA-lngB)*math.Pi/180)
+	pi180 := math.Pi / 180
+	arcLatA := latA * pi180
+	arcLatB := latB * pi180
+	x := math.Cos(arcLatA) * math.Cos(arcLatB) * math.Cos((lngA-lngB)*pi180)
 	y := math.Sin(arcLatA) * math.Sin(arcLatB)
 	s := x + y
 	if s > 1 {
