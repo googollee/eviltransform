@@ -30,7 +30,7 @@ public struct LocationTransform {
         lat += 20.0 * sin(yPi) + 40.0 * sin(yPi / 3.0)
         lng += 20.0 * sin(xPi) + 40.0 * sin(xPi / 3.0)
 
-        lat += 160.0 * sin(xPi / 12.0) + 320 * sin(yPi / 30.0)
+        lat += 160.0 * sin(yPi / 12.0) + 320 * sin(yPi / 30.0)
         lng += 150.0 * sin(xPi / 12.0) + 300 * sin(xPi / 30.0)
 
         lat *= 2.0 / 3.0
@@ -88,7 +88,7 @@ public struct LocationTransform {
         var (mLat, mLng) = (gcjLat - dLat, gcjLng - dLng)
         var (pLat, pLng) = (gcjLat + dLat, gcjLng + dLng)
         var (wgsLat, wgsLng) = (gcjLat, gcjLng)
-        for (var i = 0; i < 30; i += 1) {
+        for _ in 0 ..< 30 {
             (wgsLat, wgsLng) = ((mLat + pLat) / 2, (mLng + pLng) / 2)
             let (tmpLat, tmpLng) = wgs2gcj(wgsLat, wgsLng: wgsLng)
             (dLat, dLng) = (tmpLat - gcjLat, tmpLng - gcjLng)
