@@ -24,7 +24,7 @@ INLINE static int outOfChina(double lat, double lng) {
 	return 0;
 }
 
-#define EARTH_R 6378245.0
+#define EARTH_R 6378137.0
 
 void transform(double x, double y, double *lat, double *lng) {
 	double xy = x * y;
