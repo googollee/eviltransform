@@ -7,6 +7,7 @@ import math
 __all__ = ['wgs2gcj', 'gcj2wgs', 'gcj2wgs_exact',
            'distance', 'gcj2bd', 'bd2gcj', 'wgs2bd', 'bd2wgs']
 
+earthR = 6378137.0
 
 def outOfChina(lat, lng):
     return not (72.004 <= lng <= 137.8347 and 0.8293 <= lat <= 55.8271)
@@ -38,15 +39,14 @@ def transform(x, y):
 
 
 def delta(lat, lng):
-    a = 6378137.0
     ee = 0.00669342162296594323
     dLat, dLng = transform(lng-105.0, lat-35.0)
     radLat = lat / 180.0 * math.pi
     magic = math.sin(radLat)
     magic = 1 - ee * magic * magic
     sqrtMagic = math.sqrt(magic)
-    dLat = (dLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * math.pi)
-    dLng = (dLng * 180.0) / (a / sqrtMagic * math.cos(radLat) * math.pi)
+    dLat = (dLat * 180.0) / ((earthR * (1 - ee)) / (magic * sqrtMagic) * math.pi)
+    dLng = (dLng * 180.0) / (earthR / sqrtMagic * math.cos(radLat) * math.pi)
     return dLat, dLng
 
 
@@ -94,7 +94,6 @@ def gcj2wgs_exact(gcjLat, gcjLng):
 
 
 def distance(latA, lngA, latB, lngB):
-    earthR = 6371000
     pi180 = math.pi / 180
     arcLatA = latA * pi180
     arcLatB = latB * pi180

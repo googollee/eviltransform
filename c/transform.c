@@ -24,6 +24,8 @@ INLINE static int outOfChina(double lat, double lng) {
 	return 0;
 }
 
+#define EARTH_R 6378245.0
+
 void transform(double x, double y, double *lat, double *lng) {
 	double xy = x * y;
 	double absX = sqrt(fabs(x));
@@ -51,15 +53,14 @@ static void delta(double lat, double lng, double *dLat, double *dLng) {
 	if ((dLat == NULL) || (dLng == NULL)) {
 		return;
 	}
-	const double a = 6378245.0;
 	const double ee = 0.00669342162296594323;
 	transform(lng-105.0, lat-35.0, dLat, dLng);
 	double radLat = lat / 180.0 * M_PI;
 	double magic = sin(radLat);
 	magic = 1 - ee*magic*magic;
 	double sqrtMagic = sqrt(magic);
-	*dLat = (*dLat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * M_PI);
-	*dLng = (*dLng * 180.0) / (a / sqrtMagic * cos(radLat) * M_PI);
+	*dLat = (*dLat * 180.0) / ((EARTH_R * (1 - ee)) / (magic * sqrtMagic) * M_PI);
+	*dLng = (*dLng * 180.0) / (EARTH_R / sqrtMagic * cos(radLat) * M_PI);
 }
 
 void wgs2gcj(double wgsLat, double wgsLng, double *gcjLat, double *gcjLng) {
@@ -126,7 +127,6 @@ void gcj2wgs_exact(double gcjLat, double gcjLng, double *wgsLat, double *wgsLng)
 }
 
 double distance(double latA, double lngA, double latB, double lngB) {
-	const double earthR = 6378137;
 	double arcLatA = latA * M_PI/180;
 	double arcLatB = latB * M_PI/180;
 	double x = cos(arcLatA) * cos(arcLatB) * cos((lngA-lngB)*M_PI/180);
@@ -139,5 +139,5 @@ double distance(double latA, double lngA, double latB, double lngB) {
 		s = -1;
 	}
 	double alpha = acos(s);
-	return alpha * earthR;
+	return alpha * EARTH_R;
 }

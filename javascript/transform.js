@@ -7,6 +7,8 @@ if (typeof module === "object" && exports) {
 	exports = window["eviltransform"] = {};
 }
 
+var earthR = 6378137.0;
+
 function outOfChina(lat, lng) {
 	if ((lng < 72.004) || (lng > 137.8347)) {
 		return true;
@@ -43,15 +45,14 @@ function transform(x, y) {
 }
 
 function delta(lat, lng) {
-	var a = 6378137.0;
 	var ee = 0.00669342162296594323;
 	var d = transform(lng-105.0, lat-35.0);
 	var radLat = lat / 180.0 * Math.PI;
 	var magic = Math.sin(radLat);
 	magic = 1 - ee*magic*magic;
 	var sqrtMagic = Math.sqrt(magic);
-	d.lat = (d.lat * 180.0) / ((a * (1 - ee)) / (magic * sqrtMagic) * Math.PI);
-	d.lng = (d.lng * 180.0) / (a / sqrtMagic * Math.cos(radLat) * Math.PI);
+	d.lat = (d.lat * 180.0) / ((earthR * (1 - ee)) / (magic * sqrtMagic) * Math.PI);
+	d.lng = (d.lng * 180.0) / (earthR / sqrtMagic * Math.cos(radLat) * Math.PI);
 	return d;
 }
 
@@ -105,7 +106,6 @@ function gcj2wgs_exact(gcjLat, gcjLng) {
 exports.gcj2wgs_exact = gcj2wgs_exact;
 
 function distance(latA, lngA, latB, lngB) {
-	var earthR = 6371000;
 	var pi180 = Math.PI / 180;
 	var arcLatA = latA * pi180;
  	var arcLatB = latB * pi180;

@@ -1,5 +1,7 @@
 use std::f64::consts::PI;
 
+const EARTH_R: f64 = 6378137.0;
+
 fn out_of_china(lat: f64, lng: f64) -> bool {
     if lng < 72.004 || lng > 137.8347 {
         return true
@@ -36,7 +38,6 @@ fn transform(x: f64, y: f64) -> (f64, f64) {
 }
 
 fn delta(lat: f64, lng: f64) -> (f64, f64) {
-	let a = 6378137.0;
 	let ee = 0.00669342162296594323;
 	let (d_lat, d_lng) = transform(lng-105.0, lat-35.0);
     let mut d_lat = d_lat;
@@ -45,8 +46,8 @@ fn delta(lat: f64, lng: f64) -> (f64, f64) {
 	let mut magic = (rad_lat).sin();
 	magic = 1.0 - ee*magic*magic;
 	let sqrt_magic = (magic).sqrt();
-	d_lat = (d_lat * 180.0) / ((a * (1.0 - ee)) / (magic * sqrt_magic) * PI);
-	d_lng = (d_lng * 180.0) / (a / sqrt_magic * (rad_lat).cos() * PI);
+	d_lat = (d_lat * 180.0) / ((EARTH_R * (1.0 - ee)) / (magic * sqrt_magic) * PI);
+	d_lng = (d_lng * 180.0) / (EARTH_R / sqrt_magic * (rad_lat).cos() * PI);
 	(d_lat, d_lng)
 }
 
@@ -105,7 +106,6 @@ pub fn gcj2wgs_exact(gcj_lat: f64, gcj_lng: f64) -> (f64, f64) {
 
 // distance calculate the distance between point(lat_a, lng_a) and point(lat_b, lng_b), unit in meter.
 pub fn distance(lat_a: f64, lng_a: f64, lat_b: f64, lng_b: f64) -> f64 {
-	const EARTH_R: f64 = 6371000.0;
 	let arc_lat_a = lat_a * PI / 180.0;
 	let arc_lat_b = lat_b * PI / 180.0;
 	let x = (arc_lat_a).cos() * (arc_lat_b).cos() * ((lng_a-lng_b)*PI/180.0).cos();
@@ -133,7 +133,7 @@ mod tests {
     		distance: f64,
     	}
         const TESTS: [Test; 1] = [
-    		Test{a_lat:31.17530398364597, a_lng:121.531541859215, b_lat:39.91334545536069, b_lng:116.38404722455657, distance:1076958.0}, // shanghai to beijing
+    		Test{a_lat:31.17530398364597, a_lng:121.531541859215, b_lat:39.91334545536069, b_lng:116.38404722455657, distance:1078164.0}, // shanghai to beijing
     	];
     	for test in TESTS.iter() {
     		let d = super::distance(test.a_lat, test.a_lng, test.b_lat, test.b_lng);
