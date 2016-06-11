@@ -39,8 +39,8 @@ class EvilTransformTests: XCTestCase {
     func testGcj2wgs() {
         for (wgsLat, wgsLng, gcjLat, gcjLng) in TESTS {
             let ret = LocationTransform.gcj2wgs(gcjLat, gcjLng: gcjLng)
-            XCTAssertTrue(fabs(ret.wgsLat - wgsLat) <= lowAccuracy)
-            XCTAssertTrue(fabs(ret.wgsLng - wgsLng) <= lowAccuracy)
+            XCTAssertTrue(fabs(ret.wgsLat - wgsLat) < lowAccuracy)
+            XCTAssertTrue(fabs(ret.wgsLng - wgsLng) < lowAccuracy)
         }
     }
     
@@ -77,8 +77,8 @@ class EvilTransformTests: XCTestCase {
     func testWgs2bd() {
         for (bdLat, bdLng, wgsLat, wgsLng) in TESTS_bd {
             let ret = LocationTransform.wgs2bd(wgsLat, wgsLng: wgsLng)
-            XCTAssertTrue(fabs(ret.bdLat - bdLat) <= lowAccuracy)
-            XCTAssertTrue(fabs(ret.bdLng - bdLng) <= lowAccuracy)
+            XCTAssertTrue(fabs(ret.bdLat - bdLat) < lowAccuracy)
+            XCTAssertTrue(fabs(ret.bdLng - bdLng) < lowAccuracy)
         }
     }
     

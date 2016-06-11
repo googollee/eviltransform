@@ -4,6 +4,8 @@ import Foundation
  *  Struct transform coordinate between earth(WGS-84) and mars in china(GCJ-02).
  */
 public struct LocationTransform {
+    
+    static let EARTH_R: Double = 6378137.0
 
     static func isOutOfChina(lat: Double, lng: Double) -> Bool {
 
@@ -43,15 +45,14 @@ public struct LocationTransform {
     }
 
     static func delta(lat: Double, lng: Double) -> (dLat: Double,  dLng: Double) {
-        let r = 6378137.0
         let ee = 0.00669342162296594323
         let radLat = lat / 180.0 * M_PI
         var magic = sin(radLat)
         magic = 1 - ee * magic * magic
         let sqrtMagic = sqrt(magic)
         var (dLat, dLng) = transform(lng - 105.0, y: lat - 35.0)
-        dLat = (dLat * 180.0) / ((r * (1 - ee)) / (magic * sqrtMagic) * M_PI)
-        dLng = (dLng * 180.0) / (r / sqrtMagic * cos(radLat) * M_PI)
+        dLat = (dLat * 180.0) / ((EARTH_R * (1 - ee)) / (magic * sqrtMagic) * M_PI)
+        dLng = (dLng * 180.0) / (EARTH_R / sqrtMagic * cos(radLat) * M_PI)
         return (dLat, dLng)
     }
 
@@ -113,7 +114,6 @@ public struct LocationTransform {
      *  Distance calculate the distance between point(latA, lngA) and point(latB, lngB), unit in meter.
      */
     public static func Distance(latA: Double, lngA: Double, latB: Double, lngB: Double) -> Double {
-        let earthR = 6371000.0
         let arcLatA = latA * M_PI / 180
         let arcLatB = latB * M_PI / 180
         let x = cos(arcLatA) * cos(arcLatB) * cos((lngA-lngB) * M_PI/180)
@@ -126,7 +126,7 @@ public struct LocationTransform {
             s = -1
         }
         let alpha = acos(s)
-        let distance = alpha * earthR
+        let distance = alpha * EARTH_R
         return distance
     }
 }
