@@ -75,30 +75,23 @@ function gcj2wgs(gcjLat, gcjLng) {
 exports.gcj2wgs = gcj2wgs;
 
 function gcj2wgs_exact(gcjLat, gcjLng) {
-	var initDelta = 0.01;
-	var threshold = 0.000001;
-	var dLat = initDelta, dLng = initDelta;
-	var mLat = gcjLat-dLat, mLng = gcjLng-dLng;
-	var pLat = gcjLat+dLat, pLng = gcjLng+dLng;
-	var wgsLat, wgsLng;
-	for (var i = 0; i < 30; i++) {
-		wgsLat = (mLat+pLat)/2;
-		wgsLng = (mLng+pLng)/2;
-		var tmp = wgs2gcj(wgsLat, wgsLng)
-		dLat = tmp.lat-gcjLat;
-		dLng = tmp.lng-gcjLng;
-		if ((Math.abs(dLat) < threshold) && (Math.abs(dLng) < threshold)) {
-			return {lat: wgsLat, lng: wgsLng};
-		}
-		if (dLat > 0) {
-			pLat = wgsLat;
-		} else {
-			mLat = wgsLat;
-		}
-		if (dLng > 0) {
-			pLng = wgsLng;
-		} else {
-			mLng = wgsLng;
+	// newCoord = oldCoord = gcjCoord
+	var newLat = gcjLat, newLng = gcjLng;
+	var oldLat = newLat, oldLng = newLng;
+	var threshold = 1e-6; // ~0.55 m equator & latitude
+	
+	for (var i = 0; i < 30 && ; i++) {
+		// oldCoord = newCoord
+		oldLat = newLat;
+		oldLng = newLng;
+		// newCoord = gcjCoord - wgs_to_gcj_delta(newCoord)
+		var tmp = wgs2gcj(newLat, newLng);
+		// approx difference using gcj-space difference
+		newLat -= gcjLat - tmp.lat;
+		newLng -= gcjLng - tmp.lng;
+		// diffchk
+		if (Math.max(Math.abs(oldLat - newLat), Math.abs(oldLng - newLng)) < threshold) {
+			break;
 		}
 	}
 	return {lat: wgsLat, lng: wgsLng};
