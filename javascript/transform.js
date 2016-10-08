@@ -79,8 +79,8 @@ function gcj2wgs_exact(gcjLat, gcjLng) {
 	var newLat = gcjLat, newLng = gcjLng;
 	var oldLat = newLat, oldLng = newLng;
 	var threshold = 1e-6; // ~0.55 m equator & latitude
-	
-	for (var i = 0; i < 30 && ; i++) {
+
+	for (var i = 0; i < 30; i++) {
 		// oldCoord = newCoord
 		oldLat = newLat;
 		oldLng = newLng;
@@ -94,7 +94,7 @@ function gcj2wgs_exact(gcjLat, gcjLng) {
 			break;
 		}
 	}
-	return {lat: wgsLat, lng: wgsLng};
+	return {lat: newLat, lng: newLng};
 }
 exports.gcj2wgs_exact = gcj2wgs_exact;
 
