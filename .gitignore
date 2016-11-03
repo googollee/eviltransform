@@ -1,2 +1,5 @@
 target
 Cargo.lock
+__pycache__
+python/dist/
+python/MANIFEST
