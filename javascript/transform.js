@@ -80,8 +80,9 @@ function gcj2wgs_exact(gcjLat, gcjLng) {
 	var rough = gcj2wgs(gcjLat, gcjLng);
 	var oldLat = rough.lat, oldLng = rough.lng;
 	var threshold = 1e-6; // ~0.55 m equator & latitude
+	var i; // taken out of loop for debugging at i == 29
 
-	for (var i = 0;
+	for (i = 0;
 	     i < 30 && Math.max(Math.abs(oldLat - newLat), Math.abs(oldLng - newLng)) > threshold;
 	     i++) {
 		// oldCoord = newCoord
