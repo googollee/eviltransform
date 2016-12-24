@@ -101,7 +101,7 @@ eviltransform.gcj2wgs(lat, lng)
 
 ```javascript
 bd2wgs(lat, lng)  // BD-09 -> WGS-84
-wgs2bd(lat, lng)  // WGS-84 -> BD-02
+wgs2bd(lat, lng)  // WGS-84 -> BD-09
 bd2gcj(lat, lng)  // BD-09 -> GCJ-02
 gcj2bd(lat, lng)  // GCJ-02 -> BD-09
 ```
