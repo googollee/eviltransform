@@ -22,8 +22,8 @@ public struct LocationTransform {
 
         let xy = x * y
         let absX = sqrt(fabs(x))
-        let xPi = x * M_PI
-        let yPi = y * M_PI
+        let xPi = x * Double.pi
+        let yPi = y * Double.pi
         let d = 20.0 * sin(6.0 * xPi) + 20.0 * sin(2.0 * xPi)
 
         var lat = d
@@ -46,13 +46,13 @@ public struct LocationTransform {
 
     static func delta(lat: Double, lng: Double) -> (dLat: Double,  dLng: Double) {
         let ee = 0.00669342162296594323
-        let radLat = lat / 180.0 * M_PI
+        let radLat = lat / 180.0 * Double.pi
         var magic = sin(radLat)
         magic = 1 - ee * magic * magic
         let sqrtMagic = sqrt(magic)
         var (dLat, dLng) = transform(x: lng - 105.0, y: lat - 35.0)
-        dLat = (dLat * 180.0) / ((EARTH_R * (1 - ee)) / (magic * sqrtMagic) * M_PI)
-        dLng = (dLng * 180.0) / (EARTH_R / sqrtMagic * cos(radLat) * M_PI)
+        dLat = (dLat * 180.0) / ((EARTH_R * (1 - ee)) / (magic * sqrtMagic) * Double.pi)
+        dLng = (dLng * 180.0) / (EARTH_R / sqrtMagic * cos(radLat) * Double.pi)
         return (dLat, dLng)
     }
 
@@ -114,9 +114,9 @@ public struct LocationTransform {
      *  Distance calculate the distance between point(latA, lngA) and point(latB, lngB), unit in meter.
      */
     public static func Distance(latA: Double, lngA: Double, latB: Double, lngB: Double) -> Double {
-        let arcLatA = latA * M_PI / 180
-        let arcLatB = latB * M_PI / 180
-        let x = cos(arcLatA) * cos(arcLatB) * cos((lngA-lngB) * M_PI/180)
+        let arcLatA = latA * Double.pi / 180
+        let arcLatB = latB * Double.pi / 180
+        let x = cos(arcLatA) * cos(arcLatB) * cos((lngA-lngB) * Double.pi/180)
         let y = sin(arcLatA) * sin(arcLatB)
         var s = x + y
         if s > 1 {
@@ -138,8 +138,8 @@ extension LocationTransform {
             return (gcjLat, gcjLng)
         }
         let x = gcjLng, y = gcjLat
-        let z = sqrt(x * x + y * y) + 0.00002 * sin(y * M_PI)
-        let theta = atan2(y, x) + 0.000003 * cos(x * M_PI)
+        let z = sqrt(x * x + y * y) + 0.00002 * sin(y * Double.pi)
+        let theta = atan2(y, x) + 0.000003 * cos(x * Double.pi)
         let bdLng = z * cos(theta) + 0.0065
         let bdLat = z * sin(theta) + 0.006
         return (bdLat, bdLng)
@@ -150,8 +150,8 @@ extension LocationTransform {
             return (bdLat, bdLng)
         }
         let x = bdLng - 0.0065, y = bdLat - 0.006
-        let z = sqrt(x * x + y * y) - 0.00002 * sin(y * M_PI)
-        let theta = atan2(y, x) - 0.000003 * cos(x * M_PI)
+        let z = sqrt(x * x + y * y) - 0.00002 * sin(y * Double.pi)
+        let theta = atan2(y, x) - 0.000003 * cos(x * Double.pi)
         let gcjLng = z * cos(theta)
         let gcjLat = z * sin(theta)
         return (gcjLat, gcjLng)
