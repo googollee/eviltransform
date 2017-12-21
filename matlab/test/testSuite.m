@@ -127,9 +127,67 @@ verifyEqual(testCase,actLong,expLong, 'AbsTol' , .00005);
 
 end
 
+function gcj2bdTest(testCase)
+% test wgs to gcj should be very exact and very fast....
+% bd lat, bd long, gcj lat, gcj long 
+ TESTS_BD = [39.90851,116.43351,39.90245,116.42703];
+
+[actLat actLong] = gcj2bd(TESTS_BD(:,3),TESTS_BD(:,4));
+expLat = TESTS_BD(:,1);
+expLong = TESTS_BD(:,2);
+
+verifyEqual(testCase,actLat,expLat, 'AbsTol' , .00005);
+verifyEqual(testCase,actLong,expLong, 'AbsTol' , .00005);
+
+end
+
+function bd2gcjTest(testCase)
+% test wgs to gcj should be very exact and very fast....
+% bd lat, bd long, gcj lat, gcj long 
+ TESTS_BD = [39.90851,116.43351,39.90245,116.42703];
+
+[actLat actLong] = bd2gcj(TESTS_BD(:,1),TESTS_BD(:,2));
+expLat = TESTS_BD(:,3);
+expLong = TESTS_BD(:,4);
+
+verifyEqual(testCase,actLat,expLat, 'AbsTol' , .00005);
+verifyEqual(testCase,actLong,expLong, 'AbsTol' , .00005);
+
+end
+
+function deg2utmTest(testCase)
+% test wgs to utm should be very exact and very fast....
+% LAT, LONG, X, Y
+
+TestUTMDEG = [36.903784,-104.545898,540455.18,4084295.17];
+
+[actUTMx, actUTMy] = deg2utm(TestUTMDEG(:,1),TestUTMDEG(:,2));
+expUTMx = TestUTMDEG(:,3);
+expUTMy = TestUTMDEG(:,4);
+
+verifyEqual(testCase,actUTMx,expUTMx, 'AbsTol' , .1);
+verifyEqual(testCase,actUTMy,expUTMy, 'AbsTol' , .1);
+
+end
+
+function utm2degTest(testCase)
+% test wgs to gcj should be very exact and very fast....
+% LAT, LONG, X, Y
+
+TestUTMDEG = [36.903784,-104.545898,540455.18,4084295.17];
+
+[actLat, actLong] = utm2deg(TestUTMDEG(:,3),TestUTMDEG(:,4),'13N');
+expLat = TestUTMDEG(:,1);
+expLong = TestUTMDEG(:,2);
+
+verifyEqual(testCase,actLat,expLat, 'AbsTol' , .00001);
+verifyEqual(testCase,actLong,expLong, 'AbsTol' , .00001);
+
+end
+
 function speedTest(testCase)
 % test wgs to gcj
-n = 10000;
+n = 50000;
 TESTS =  [
     31.1774276, 121.5272106, 31.17530398364597, 121.531541859215; %shanghai
     22.543847, 113.912316, 22.540796131694766, 113.9171764808363; %shenzhen
