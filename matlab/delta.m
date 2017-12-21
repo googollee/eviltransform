@@ -1,7 +1,7 @@
 
 function [dLat dLng] = delta(lat,lng)
     
-    earthRadius = 6378137.0;
+    earthRadius = 6378245 % Replace from because of differnet ellipsoid 6378137.0;
     ee = 0.00669342162296594323;
     
     [dLat, dLng] = transform(lat, lng);

@@ -1,7 +1,7 @@
 function totalDistance =  distance(latA, lngA, latB, lngB)
 % Fully vectorized version of code
 
-    earthR = 6378137.0;
+    earthR = 6371000; % Updated from 6378137.0
     pi180 = pi / 180;
     radLatA = latA * pi180;
     radLatB = latB * pi180;
