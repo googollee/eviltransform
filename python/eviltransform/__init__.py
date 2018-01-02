@@ -8,6 +8,7 @@ __all__ = ['wgs2gcj', 'gcj2wgs', 'gcj2wgs_exact',
            'distance', 'gcj2bd', 'bd2gcj', 'wgs2bd', 'bd2wgs']
 
 earthR = 6378137.0
+X_PI = math.pi * 3000 / 180
 
 def outOfChina(lat, lng):
     return not (72.004 <= lng <= 137.8347 and 0.8293 <= lat <= 55.8271)
@@ -116,8 +117,8 @@ def gcj2bd(gcjLat, gcjLng):
 
     x = gcjLng
     y = gcjLat
-    z = math.hypot(x, y) + 0.00002 * math.sin(y * math.pi)
-    theta = math.atan2(y, x) + 0.000003 * math.cos(x * math.pi)
+    z = math.hypot(x, y) + 0.00002 * math.sin(y * X_PI)
+    theta = math.atan2(y, x) + 0.000003 * math.cos(x * X_PI)
     bdLng = z * math.cos(theta) + 0.0065
     bdLat = z * math.sin(theta) + 0.006
     return bdLat, bdLng
@@ -129,8 +130,8 @@ def bd2gcj(bdLat, bdLng):
 
     x = bdLng - 0.0065
     y = bdLat - 0.006
-    z = math.hypot(x, y) - 0.00002 * math.sin(y * math.pi)
-    theta = math.atan2(y, x) - 0.000003 * math.cos(x * math.pi)
+    z = math.hypot(x, y) - 0.00002 * math.sin(y * X_PI)
+    theta = math.atan2(y, x) - 0.000003 * math.cos(x * X_PI)
     gcjLng = z * math.cos(theta)
     gcjLat = z * math.sin(theta)
     return gcjLat, gcjLng
