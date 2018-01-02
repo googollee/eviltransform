@@ -77,23 +77,29 @@ exports.gcj2wgs = gcj2wgs;
 function gcj2wgs_exact(gcjLat, gcjLng) {
 	// newCoord = oldCoord = gcjCoord
 	var newLat = gcjLat, newLng = gcjLng;
-	var oldLat = newLat, oldLng = newLng;
+	var rough = gcj2wgs(gcjLat, gcjLng);
+	var oldLat = rough.lat, oldLng = rough.lng;
 	var threshold = 1e-6; // ~0.55 m equator & latitude
+	var i; // taken out of loop for debugging at i == 29
 
-	for (var i = 0; i < 30; i++) {
+	for (i = 0;
+	     i < 30 && Math.max(Math.abs(oldLat - newLat), Math.abs(oldLng - newLng)) > threshold;
+	     i++) {
 		// oldCoord = newCoord
 		oldLat = newLat;
 		oldLng = newLng;
 		// newCoord = gcjCoord - wgs_to_gcj_delta(newCoord)
 		var tmp = wgs2gcj(newLat, newLng);
 		// approx difference using gcj-space difference
-		newLat -= gcjLat - tmp.lat;
-		newLng -= gcjLng - tmp.lng;
-		// diffchk
-		if (Math.max(Math.abs(oldLat - newLat), Math.abs(oldLng - newLng)) < threshold) {
-			break;
-		}
+		newLat -= tmp.lat - gcjLat;
+		newLng -= tmp.lng - gcjLng;
 	}
+	
+	// i == 29 usually means bad things
+	if (i == 29) {
+		console.warn("gcj2wgs_exact: Out of iterations. Bug?");
+	}
+	
 	return {lat: newLat, lng: newLng};
 }
 exports.gcj2wgs_exact = gcj2wgs_exact;
