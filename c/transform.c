@@ -28,7 +28,7 @@ INLINE static int outOfChina(double lat, double lng) {
 
 void transform(double x, double y, double *lat, double *lng) {
 	double xy = x * y;
-	double absX = sqrt(fabs(x));
+	double sqrtX = sqrt(fabs(x));
 	double xPi = x * M_PI;
 	double yPi = y * M_PI;
 	double d = 2.0*sin(6.0*xPi) + 2.0*sin(2.0*xPi);
@@ -45,8 +45,8 @@ void transform(double x, double y, double *lat, double *lng) {
 	*lat *= 20.0 / 3.0;
 	*lng *= 20.0 / 3.0;
 
-	*lat += -100.0 + 2.0*x + 3.0*y + 0.2*y*y + 0.1*xy + 0.2*absX;
-	*lng += 300.0 + x + 2.0*y + 0.1*x*x + 0.1*xy + 0.1*absX;
+	*lat += -100.0 + 2.0*x + 3.0*y + 0.2*y*y + 0.1*xy + 0.2*sqrtX;
+	*lng += 300.0 + x + 2.0*y + 0.1*x*x + 0.1*xy + 0.1*sqrtX;
 }
 
 static void delta(double lat, double lng, double *dLat, double *dLng) {
@@ -97,7 +97,7 @@ void gcj2wgs(double gcjLat, double gcjLng, double *wgsLat, double *wgsLng) {
 void gcj2wgs_exact(double gcjLat, double gcjLng, double *wgsLat, double *wgsLng) {
 	double dLat, dLng;
 	// n_iter=2: centimeter precision, n_iter=5: double precision
-	const int n_iter = 2;
+	const int n_iter = 3;
 	int i;
 	if ((wgsLat == NULL) || (wgsLng == NULL)) {
 		return;
