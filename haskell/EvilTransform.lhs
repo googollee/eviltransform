@@ -67,20 +67,18 @@
 
 
 >     gcj2WgsExact :: Coordinate -> Coordinate
->     gcj2WgsExact gcoords = gcj2WgsExactFix 0 gcoords gcoords wcoords
+>     gcj2WgsExact gcoords = gcj2WgsExactFix 0 gcoords wcoords
 >         where wcoords = gcj2Wgs gcoords
 
 >     gcj2WgsExactFix :: Int    -- times
 >            -> Coordinate      -- shit
->            -> Coordinate      -- prev
 >            -> Coordinate      -- curr
 >            -> Coordinate
->     gcj2WgsExactFix i shit prev curr
+>     gcj2WgsExactFix i shit curr
 >         | i >= 29  = curr
 >         | lessThanThreshold diff = curr
->         | otherwise = let prev = curr
->                           curr = subtractCoord curr diff
->                       in gcj2WgsExactFix (i+1) shit prev curr
+>         | otherwise = let curr = subtractCoord curr diff
+>                       in gcj2WgsExactFix (i+1) shit curr
 >         where threshold         = 0.000001
 >               fwdt              = wgs2Gcj curr
 >               diff              = subtractCoord fwdt shit
