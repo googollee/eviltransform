@@ -26,8 +26,8 @@
 >               i3 = (20.0*sin(x*pi) + 40.0*sin(x/3.0*pi)) * 2.0 / 3.0
 >               i4 = (150.0*sin(x/12.0*pi) + 300.0*sin(x/30.0*pi)) * 2.0 / 3.0
 
->     delte :: Coordinate -> Coordinate
->     delte (lat, lng) = (dLat, dLng)
+>     delta :: Coordinate -> Coordinate
+>     delta (lat, lng) = (dLat, dLng)
 >         where a         = 6378137.0
 >               ee        = 0.00669342162296594323
 >               radLat    = lat / 180.0 * pi
@@ -44,7 +44,7 @@
 >         | outOfChina wgscoor = wgscoor
 >         | otherwise          = (wglat + dlat, wglng + dlng)
 >         where (wglat, wglng) = wgscoor
->               (dlat,  dlng)  = delte wgscoor
+>               (dlat,  dlng)  = delta wgscoor
 
 
 >     gcj2Wgs :: Coordinate -> Coordinate
@@ -52,7 +52,7 @@
 >         | outOfChina gccoor  = gccoor
 >         | otherwise          = (gcjLat - dLat, gcjLng - dLng)
 >         where (gcjLat, gcjLng) = gccoor
->               (dLat, dLng)   = delte gccoor
+>               (dLat, dLng)   = delta gccoor
 
 >     distance :: Coordinate -> Coordinate -> Double
 >     distance (latA,lngA) (latB, lngB)
@@ -67,33 +67,22 @@
 
 
 >     gcj2WgsExact :: Coordinate -> Coordinate
->     gcj2WgsExact (gcjLat, gcjLng) = gainOn 0 gcjLat gcjLng mLat mLng pLat pLng
->         where initDelta = 0.01
->               mLat      = gcjLat - initDelta
->               mLng      = gcjLng - initDelta
->               pLat      = gcjLat + initDelta
->               pLng      = gcjLng + initDelta
+>     gcj2WgsExact gcoords = gcj2WgsExactFix 0 gcoords wcoords
+>         where wcoords = gcj2Wgs gcoords
 
->     gainOn :: Int    -- times
->            -> Double -- gcjLat
->            -> Double -- gcjLng
->            -> Double -- mLat
->            -> Double -- mLng
->            -> Double -- pLat
->            -> Double -- pLng
+>     gcj2WgsExactFix :: Int    -- times
+>            -> Coordinate      -- shit
+>            -> Coordinate      -- curr
 >            -> Coordinate
->     gainOn i gcjLat gcjLng mLat mLng pLat pLng
->         | i >= 29  = (wgsLat, wgsLng)
->         | (lessThanThreshold dLat) && (lessThanThreshold dLng) = (wgsLat, wgsLng)
->         | otherwise = let _pLat = if (dLat >  0) then wgsLat else pLat
->                           _mLat = if (dLat <= 0) then wgsLat else mLat
->                           _pLng = if (dLng >  0) then wgsLng else pLng
->                           _mLng = if (dLng <= 0) then wgsLng else mLng
->                       in gainOn (i+1) gcjLat gcjLng _mLat _mLng _pLat _pLng
+>     gcj2WgsExactFix i shit curr
+>         | i >= 29  = curr
+>         | lessThanThreshold diff = curr
+>         | otherwise = let curr = subtractCoord curr diff
+>                       in gcj2WgsExactFix (i+1) shit curr
 >         where threshold         = 0.000001
->               wgsLat            = (mLat + pLat) / 2
->               wgsLng            = (mLng + pLng) / 2
->               (tmpLat, tmpLng)  = wgs2Gcj (wgsLat, wgsLng)
->               dLat              = tmpLat - gcjLat
->               dLng              = tmpLng - gcjLng
->               lessThanThreshold = (\x -> abs(x) < threshold)
+>               fwdt              = wgs2Gcj curr
+>               diff              = subtractCoord fwdt shit
+>               lessThanThreshold = (\x -> (abs (fst x) < threshold) && (abs (snd x)  < threshold))
+
+>     subtractCoord :: Coordinate -> Coordinate -> Coordinate
+>     subtractCoord (a,b) (c,d) = (a-c,b-d)
