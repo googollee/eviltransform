@@ -131,7 +131,7 @@ GCJ-02坐标用在谷歌地图，高德地图等中国地图服务。（百度�
 ## 算法来源:
 
  - https://on4wp7.codeplex.com/SourceControl/changeset/view/21483#353936
- - http://emq.googlecode.com/svn/emq/src/Algorithm/Coords/Converter.java
+ - [http://emq.googlecode.com/svn/emq/src/Algorithm/Coords/Converter.java](https://web.archive.org/web/20130815104734/http://emq.googlecode.com:80/svn/emq/src/Algorithm/Coords/Converter.java)
 
 ## 参考:
 
