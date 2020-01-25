@@ -44,7 +44,7 @@ for (var i = 0; i < tests.length; i++) {
 	var wgs = transform.gcj2wgs_exact(gcjLat, gcjLng);
 	var d = transform.distance(wgs.lat, wgs.lng, tests[i][0], tests[i][1]);
 	if (d > 0.5) {
-		console.log("gcj2wgs_exact test " + i + ": distance" + d);
+		console.error("gcj2wgs_exact test " + i + ": distance" + d);
 	}
 }
 
