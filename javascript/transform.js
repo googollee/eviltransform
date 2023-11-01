@@ -85,10 +85,10 @@ function gcj2wgs_exact(gcjLat, gcjLng) {
 		oldLat = newLat;
 		oldLng = newLng;
 		// newCoord = gcjCoord - wgs_to_gcj_delta(newCoord)
-		var tmp = wgs2gcj(newLat, newLng);
+		var d = delta(newLat, newLng);
 		// approx difference using gcj-space difference
-		newLat -= gcjLat - tmp.lat;
-		newLng -= gcjLng - tmp.lng;
+		newLat = gcjLat - d.lat;
+		newLng = gcjLng - d.lng;
 		// diffchk
 		if (Math.max(Math.abs(oldLat - newLat), Math.abs(oldLng - newLng)) < threshold) {
 			break;
