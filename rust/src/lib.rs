@@ -70,6 +70,15 @@ pub fn gcj2wgs(gcj_lat: f64, gcj_lng: f64) -> (f64, f64) {
 	(gcj_lat-d_lat, gcj_lng-d_lng)
 }
 
+const X_PI: f64 = std::f64::consts::PI * 3000.0 / 180.0;
+// gcj2bd09 convert GCJ-02 coordinate to BD09 coordinate(https://lbsyun.baidu.com/index.php?title=jspopular/guide/coorinfo)
+// https://gist.github.com/jp1017/71bd0976287ce163c11a7cb963b04dd8
+pub fn gcj02_to_bd09(gcj_lat: f64, gcj_lng: f64) -> (f64, f64) {
+    let z = (gcj_lng * gcj_lng + gcj_lat * gcj_lat).sqrt() + 0.00002 * (gcj_lat * X_PI).sin();
+    let theta = gcj_lat.atan2(gcj_lng) + 0.000003 * (gcj_lng * X_PI).cos();
+    (z * theta.sin() + 0.006, z * theta.cos() + 0.0065)
+}
+
 // gcj2wgs_exact convert GCJ-02 coordinate(gcj_lat, gcj_lng) to WGS-84 coordinate.
 // The output WGS-84 coordinate's accuracy is less than 0.5m, but much slower than gcj2wgs.
 pub fn gcj2wgs_exact(gcj_lat: f64, gcj_lng: f64) -> (f64, f64) {
